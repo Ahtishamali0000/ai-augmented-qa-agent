@@ -1,0 +1,36 @@
+- name: bug
+  color: d73a4a
+  description: Something is not working
+
+- name: enhancement
+  color: a2eeef
+  description: Improvement to existing functionality
+
+- name: feature
+  color: 0e8a16
+  description: New product or framework capability
+
+- name: automation
+  color: 5319e7
+  description: Automation framework work
+
+- name: ai
+  color: 1d76db
+  description: AI analysis, prompts, or model workflow
+
+- name: jira
+  color: 0052cc
+  description: Jira integration or ticket workflow
+
+- name: playwright
+  color: 45ba4b
+  description: Playwright test framework
+
+- name: qa
+  color: fbca04
+  description: QA strategy, coverage, or test design
+
+- name: documentation
+  color: 0075ca
+  description: Documentation updates
+

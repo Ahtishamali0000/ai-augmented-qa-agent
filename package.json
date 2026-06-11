@@ -1,0 +1,37 @@
+{
+  "name": "qa-ai-framework-showcase",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:api": "node server/jira-server.mjs",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:login": "playwright test --grep \"@login\"",
+    "test:e2e:smoke": "playwright test --grep \"@smoke\"",
+    "test:e2e:report": "playwright show-report reports/playwright/html",
+    "analyze:ticket": "tsx src/cli/analyze-ticket.ts",
+    "approve:ticket": "tsx src/cli/analyze-ticket.ts --approve",
+    "jira:tickets": "tsx src/cli/analyze-ticket.ts --list",
+    "generate:test-cases": "tsx src/cli/analyze-ticket.ts",
+    "generate:script": "tsx src/cli/analyze-ticket.ts",
+    "approve:script": "tsx src/cli/analyze-ticket.ts --approve"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.53.0",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.16",
+    "@types/react-dom": "^19.2.3",
+    "tsx": "^4.21.0"
+  }
+}

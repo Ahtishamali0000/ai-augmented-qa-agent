@@ -1,0 +1,18 @@
+{
+  "ticket_id": "VSF2-1042",
+  "title": "Registered customer can search for a product and add it to bag",
+  "description": "As a registered customer, I want to search for a product by keyword, open a product detail page, choose an available size, and add the item to my shopping bag so that I can proceed toward checkout.",
+  "acceptance_criteria": [
+    "Customer can search for a product using the site header search bar",
+    "Search results display relevant products for the entered keyword",
+    "Customer can open a product detail page from search results",
+    "Customer can select an available product size",
+    "Customer can add the selected product to the shopping bag",
+    "Shopping bag count or basket surface updates after adding the product",
+    "If no size is selected, the customer sees a clear validation message"
+  ],
+  "priority": "High",
+  "component": "Search, Product, Cart",
+  "environment": "CF UK Staging",
+  "assigned_to": "Naveed Chughtai"
+}
