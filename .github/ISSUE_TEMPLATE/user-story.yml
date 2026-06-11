@@ -1,0 +1,54 @@
+name: User Story
+description: Create a product user story for QA analysis and automation planning
+title: "[Story]: "
+labels:
+  - user-story
+  - qa-ready
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Short user story summary
+      placeholder: As a customer, I want...
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Explain the business goal and expected user behavior
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Add testable acceptance criteria
+      placeholder: |
+        Given...
+        When...
+        Then...
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
+    validations:
+      required: true
+  - type: input
+    id: component
+    attributes:
+      label: Component / Module
+      placeholder: search, cart, checkout, auth
+  - type: textarea
+    id: qa-notes
+    attributes:
+      label: QA Notes
+      description: Risks, test data, environment notes, automation hints

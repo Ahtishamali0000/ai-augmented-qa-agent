@@ -9,12 +9,29 @@ export class HeaderComponent {
   readonly countrySelector: Locator;
 
   constructor(private readonly page: Page) {
-    this.logo = page.getByRole('link', { name: /ego|home/i }).first();
-    this.searchBar = page.getByRole('searchbox').or(page.getByPlaceholder(/search/i)).first();
-    this.accountIcon = page.getByRole('link', { name: /account|login|sign in|my account/i }).or(page.getByRole('button', { name: /account|login|sign in|my account/i })).first();
-    this.wishlistIcon = page.getByRole('link', { name: /wishlist|favourites|favorites/i }).first();
-    this.bagIcon = page.getByRole('link', { name: /bag|basket|cart/i }).or(page.getByRole('button', { name: /bag|basket|cart/i })).first();
-    this.countrySelector = page.getByRole('button', { name: /country|region|currency|gb|uk|us|eu/i }).first();
+    const header = page.locator('header').first();
+
+    this.logo = header.locator('a[href="/"]:visible, a[href*="ego" i]:visible').or(page.getByRole('link', { name: /ego|home/i })).first();
+    this.searchBar = header.locator('input[type="search"]:visible, input[placeholder*="search" i]:visible').or(page.getByRole('searchbox')).or(page.getByPlaceholder(/search/i)).first();
+    this.accountIcon = header
+      .locator('a[href*="account" i]:visible, a[href*="login" i]:visible, button[aria-label*="account" i]:visible')
+      .or(page.getByRole('link', { name: /account|login|sign in|my account/i }))
+      .or(page.getByRole('button', { name: /account|login|sign in|my account/i }))
+      .first();
+    this.wishlistIcon = header
+      .locator('a[href*="wishlist" i]:visible, a[href*="favourite" i]:visible, a[href*="favorite" i]:visible, button[aria-label*="wishlist" i]:visible')
+      .or(page.getByRole('link', { name: /wishlist|favourites|favorites/i }))
+      .or(page.getByRole('button', { name: /wishlist|favourites|favorites/i }))
+      .first();
+    this.bagIcon = header
+      .locator('a[href*="bag" i]:visible, a[href*="basket" i]:visible, a[href*="cart" i]:visible, button[aria-label*="bag" i]:visible, button[aria-label*="cart" i]:visible')
+      .or(page.getByRole('link', { name: /bag|basket|cart/i }))
+      .or(page.getByRole('button', { name: /bag|basket|cart/i }))
+      .first();
+    this.countrySelector = header
+      .locator('button:has-text("GBP"):visible, button:has-text("USD"):visible, button:has-text("United Kingdom"):visible, button:has-text("United States"):visible')
+      .or(page.getByRole('button', { name: /country|region|currency|gbp|usd|gb|uk|us|eu/i }))
+      .first();
   }
 
   async openAccount() {

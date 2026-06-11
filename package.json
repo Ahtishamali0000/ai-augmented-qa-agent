@@ -15,6 +15,7 @@
     "analyze:ticket": "tsx src/cli/analyze-ticket.ts",
     "approve:ticket": "tsx src/cli/analyze-ticket.ts --approve",
     "jira:tickets": "tsx src/cli/analyze-ticket.ts --list",
+    "ci:jira-ticket": "tsx src/cli/github-action-ticket.ts",
     "generate:test-cases": "tsx src/cli/analyze-ticket.ts",
     "generate:script": "tsx src/cli/analyze-ticket.ts",
     "approve:script": "tsx src/cli/analyze-ticket.ts --approve"

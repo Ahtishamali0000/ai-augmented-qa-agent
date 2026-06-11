@@ -277,10 +277,104 @@ Suggested topics:
 playwright typescript qa-automation software-testing jira ai llm testing quality-assurance automation-framework devops github-actions sdet prompt-engineering agentic-ai
 ```
 
+## GitHub Actions Integration
+
+This repository includes a GitHub Actions workflow:
+
+```text
+.github/workflows/qa-automation.yml
+```
+
+The workflow runs:
+
+```text
+1. Checkout repository
+2. Install Node.js dependencies
+3. Install Playwright Chromium
+4. Build the TypeScript/Vite app
+5. Optionally analyze a Jira ticket from manual workflow input
+6. Run tagged Playwright tests
+7. Upload Playwright HTML and JSON reports as artifacts
+```
+
+### Required GitHub Secrets
+
+Add these in GitHub:
+
+```text
+Repository → Settings → Secrets and variables → Actions → New repository secret
+```
+
+Recommended secrets:
+
+```text
+JIRA_BASE_URL
+JIRA_EMAIL
+JIRA_API_TOKEN
+OPENAI_API_KEY
+LOGIN_EMAIL
+LOGIN_PASSWORD
+```
+
+Recommended variables:
+
+```text
+DEFAULT_TEST_ENV
+DEFAULT_LOCALE
+PLAYWRIGHT_BASE_URL
+```
+
+### Manual Workflow Run
+
+Open:
+
+```text
+GitHub → Actions → QA Automation Pipeline → Run workflow
+```
+
+Optional inputs:
+
+```text
+test_tag=@smoke
+jira_ticket_key=PROJECT-123
+```
+
+Examples:
+
+```text
+@smoke
+@login
+@cart
+@checkout
+@payment
+```
+
+The workflow does not automatically approve or merge generated Playwright scripts. Generated scripts still require human review before they are added to the framework.
+
+## GitHub Issue Management
+
+This repository includes GitHub issue forms for lightweight management:
+
+```text
+.github/ISSUE_TEMPLATE/user-story.yml
+.github/ISSUE_TEMPLATE/bug-report.yml
+```
+
+Use these to create:
+
+```text
+User stories
+Bugs
+QA-ready tickets
+Regression candidates
+Automation candidates
+```
+
+For full Jira management, continue using Jira as the source of truth. GitHub Issues can be used for engineering follow-up, bugs found by automation, and lightweight backlog items.
+
 ## Future Roadmap
 
 - Add OpenAI structured-output powered analysis
-- Add GitHub Actions CI for Playwright smoke and regression suites
 - Add PR-based approval flow for generated specs
 - Add execution summary generation from Playwright JSON reports
 - Add flaky test detection and retry analytics

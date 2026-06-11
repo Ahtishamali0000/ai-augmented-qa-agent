@@ -56,6 +56,18 @@ type PlaywrightReportSummary = {
   passed: number;
   failed: number;
   skipped: number;
+  failures: PlaywrightFailure[];
+  suggestions: string[];
+};
+
+type PlaywrightFailure = {
+  title: string;
+  file: string;
+  status: string;
+  duration: number;
+  reason: string;
+  message: string;
+  suggestion: string[];
 };
 
 type PlaywrightRunResponse = {
@@ -66,6 +78,9 @@ type PlaywrightRunResponse = {
   finishedAt: string;
   stdout: string;
   stderr: string;
+  mode: string;
+  workers: number;
+  error?: string;
   report: PlaywrightReportSummary;
 };
 
@@ -232,6 +247,21 @@ const pipelines = [
   { name: 'Azure DevOps', detail: 'YAML triggers, templates, Node tasks, artifacts, service hooks, Boards/Pipelines feedback.' },
 ];
 
+const githubWorkflowSteps = [
+  'Build TypeScript and Vite app on push and pull request',
+  'Install Playwright Chromium in CI',
+  'Run smoke tests automatically or selected tag manually',
+  'Read Jira ticket context during manual workflow runs',
+  'Upload Playwright HTML and JSON reports as GitHub artifacts',
+];
+
+const githubIssueTemplates = [
+  { name: 'User Story', detail: 'Structured summary, description, acceptance criteria, priority, component, and QA notes.' },
+  { name: 'Bug Report', detail: 'Steps to reproduce, actual result, expected result, severity, environment, and evidence.' },
+];
+
+const githubSecrets = ['JIRA_BASE_URL', 'JIRA_EMAIL', 'JIRA_API_TOKEN', 'LOGIN_EMAIL', 'LOGIN_PASSWORD'];
+
 const connectorRules = [
   { name: 'Jira', detail: 'Validate signatures, scope JQL ingestion, enrich on demand, and renew dynamic OAuth webhooks before expiration.' },
   { name: 'GitHub', detail: 'Prefer GitHub Apps over PATs, subscribe only to needed events, and monitor webhook payload size limits.' },
@@ -257,7 +287,43 @@ const roadmap = [
   { phase: 'Showcase+', time: 'Expanded intelligence layer', scope: 'Azure Boards, Linear, site reconnaissance, sharding, richer dashboards, connector health, and KPI reporting' },
 ];
 
-const playwrightTags = ['@smoke', '@login', '@register', '@auth', '@regression'];
+const playwrightTags = ['@homepage', '@smoke', '@login', '@register', '@auth', '@regression', '@ui'];
+const playwrightSuites = [
+  {
+    tag: '@homepage',
+    title: 'Homepage Smoke',
+    command: 'npx playwright test --grep "@homepage"',
+    coverage: 'HomePage.goto, popup safety, header logo, search, account, wishlist, bag, country selector',
+  },
+  {
+    tag: '@login',
+    title: 'Login Automation',
+    command: 'npx playwright test --grep "@login"',
+    coverage: 'AuthPage login form, environment credentials, submitted-login verification',
+  },
+  {
+    tag: '@register',
+    title: 'Registration Automation',
+    command: 'npx playwright test --grep "@register"',
+    coverage: 'Random yopmail data, email-first signup support, registration form fill, debug screenshots',
+  },
+];
+const playwrightFrameworkFiles = [
+  'pages/HomePage.ts',
+  'pages/AuthPage.ts',
+  'components/PopupHandler.ts',
+  'utils/testData.ts',
+  'fixtures/testFixture.ts',
+  'tests/e2e/smoke/homepage.spec.ts',
+  'tests/e2e/auth/login.spec.ts',
+  'tests/e2e/auth/register.spec.ts',
+];
+const playwrightDebugArtifacts = [
+  'reports/after-signup-click.png',
+  'reports/registration-after-email.png',
+  'reports/registration-before-submit.png',
+  'reports/playwright/results.json',
+];
 const jiraScopedFilters = [
   'EGO App: TESTFLIGHT TESTING, Production Testing',
   'VSF2 board 20: DEV QA (TESTING ON DEV), CODE REVIEW (PR TO STAGE)',
@@ -270,6 +336,8 @@ function App() {
   const [jiraError, setJiraError] = useState('');
   const [isLoadingJira, setIsLoadingJira] = useState(false);
   const [selectedPlaywrightTag, setSelectedPlaywrightTag] = useState('@smoke');
+  const [playwrightHeaded, setPlaywrightHeaded] = useState(false);
+  const [playwrightWorkers, setPlaywrightWorkers] = useState(2);
   const [playwrightResult, setPlaywrightResult] = useState<PlaywrightRunResponse | null>(null);
   const [playwrightError, setPlaywrightError] = useState('');
   const [isRunningPlaywright, setIsRunningPlaywright] = useState(false);
@@ -335,15 +403,14 @@ function App() {
       const response = await fetch('/api/playwright/run', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ grep: selectedPlaywrightTag }),
+        body: JSON.stringify({ grep: selectedPlaywrightTag, headed: playwrightHeaded, workers: playwrightWorkers }),
       });
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Playwright run failed');
-      }
-
       setPlaywrightResult(data as PlaywrightRunResponse);
+      if (!response.ok) {
+        setPlaywrightError(data.error || 'Playwright run failed');
+      }
     } catch (error) {
       setPlaywrightError(error instanceof Error ? error.message : 'Playwright run failed');
     } finally {
@@ -803,11 +870,14 @@ function App() {
 
       <section className="section split">
         <div>
-          <SectionHeader icon={<Play />} title="Live Playwright Runner" subtitle="Trigger tagged Playwright automation from the app through the local API server." />
+          <SectionHeader icon={<Play />} title="Live Playwright Runner" subtitle="Run the stabilized POM-based homepage, login, and registration suites by tag." />
           <div className="jiraPanel">
             <div className="jiraFilters">
               <span>Target: CF staging</span>
               <span>Browser: Chromium</span>
+              <span>POM: HomePage + AuthPage</span>
+              <span>{playwrightHeaded ? 'Headed browser' : 'Headless browser'}</span>
+              <span>{playwrightWorkers} worker(s)</span>
               <span>Report: reports/playwright/results.json</span>
             </div>
             <div className="runnerControls">
@@ -816,27 +886,97 @@ function App() {
                   <option key={tag} value={tag}>{tag}</option>
                 ))}
               </select>
+              <select value={playwrightWorkers} onChange={(event) => setPlaywrightWorkers(Number(event.target.value))}>
+                <option value={1}>1 worker</option>
+                <option value={2}>2 workers</option>
+                <option value={3}>3 workers</option>
+                <option value={4}>4 workers</option>
+              </select>
+              <label className="toggleControl">
+                <input type="checkbox" checked={playwrightHeaded} onChange={(event) => setPlaywrightHeaded(event.target.checked)} />
+                <span>Open browser</span>
+              </label>
               <button className="primaryBtn" type="button" onClick={runPlaywrightTag} disabled={isRunningPlaywright}>
                 {isRunningPlaywright ? 'Running Playwright...' : `Run ${selectedPlaywrightTag}`}
               </button>
             </div>
             {playwrightResult && (
-              <p className={playwrightResult.passed ? 'successText' : 'errorText'}>
-                Playwright finished with exit code {playwrightResult.exitCode}. Total: {playwrightResult.report.total}, Passed: {playwrightResult.report.passed}, Failed: {playwrightResult.report.failed}, Skipped: {playwrightResult.report.skipped}.
-              </p>
+              <div className="playwrightReport">
+                <p className={playwrightResult.passed ? 'successText' : 'errorText'}>
+                  Playwright finished with exit code {playwrightResult.exitCode}. Mode: {playwrightResult.mode}. Workers: {playwrightResult.workers}. Total: {playwrightResult.report.total}, Passed: {playwrightResult.report.passed}, Failed: {playwrightResult.report.failed}, Skipped: {playwrightResult.report.skipped}.
+                </p>
+                <div className="assistantStats">
+                  <Metric value={String(playwrightResult.report.total)} label="Total tests" />
+                  <Metric value={String(playwrightResult.report.passed)} label="Passed" />
+                  <Metric value={String(playwrightResult.report.failed)} label="Failed" />
+                  <Metric value={String(playwrightResult.report.skipped)} label="Skipped" />
+                </div>
+                {playwrightResult.report.failures?.length > 0 && (
+                  <div className="assistantPanel">
+                    <div className="panelTitle">
+                      <strong>Failure Reason</strong>
+                      <span>{playwrightResult.report.failures.length} issue(s)</span>
+                    </div>
+                    <div className="cardStack">
+                      {playwrightResult.report.failures.map((failure) => (
+                        <div className="miniCard" key={`${failure.title}-${failure.file}`}>
+                          <h3>{failure.reason}</h3>
+                          <p>{failure.title}</p>
+                          {failure.file && <p>{failure.file}</p>}
+                          <pre className="failureSnippet">{failure.message}</pre>
+                          <div className="assistantBlock">
+                            <strong>Suggested fix</strong>
+                            <ul>{failure.suggestion.map((item) => <li key={item}>{item}</li>)}</ul>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {playwrightResult.report.suggestions?.length > 0 && (
+                  <div className="assistantPanel">
+                    <div className="panelTitle">
+                      <strong>Recommended Next Steps</strong>
+                      <span>AI-ready summary</span>
+                    </div>
+                    <ul className="checkList">
+                      {playwrightResult.report.suggestions.map((suggestion) => (
+                        <li key={suggestion}><CheckCircle2 size={18} /> {suggestion}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             )}
             {playwrightError && <p className="errorText">{playwrightError}</p>}
+            <div className="cardStack">
+              {playwrightSuites.map((suite) => (
+                <div className="miniCard" key={suite.tag}>
+                  <h3>{suite.title}</h3>
+                  <p>{suite.coverage}</p>
+                  <div className="jiraFilters">
+                    <span>{suite.tag}</span>
+                    <span>{suite.command}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="codePanel">
           <div className="codeTitle">AI execution command</div>
-          <pre>{`npx playwright test --grep "${selectedPlaywrightTag}"
+          <pre>{`npx playwright test --grep "${selectedPlaywrightTag}" --workers ${playwrightWorkers}${playwrightHeaded ? ' --headed' : ''}
 
 JSON report:
 reports/playwright/results.json
 
 HTML report:
-reports/playwright/html`}</pre>
+reports/playwright/html
+
+Registration debug:
+reports/after-signup-click.png
+reports/registration-after-email.png
+reports/registration-before-submit.png`}</pre>
         </div>
       </section>
 
@@ -864,22 +1004,30 @@ CI artifacts = evidence and rollback context`}</pre>
 
       <section id="playwright" className="section split">
         <div>
-          <SectionHeader icon={<Play />} title="Playwright Engineering Standard" subtitle="AI-generated tests should still look like a disciplined human-owned framework." />
+          <SectionHeader icon={<Play />} title="Playwright Engineering Standard" subtitle="The app is aligned with the stabilized TypeScript POM framework." />
           <ul className="checkList">
             {standards.map((standard) => (
               <li key={standard}><CheckCircle2 size={18} /> {standard}</li>
             ))}
           </ul>
+          <div className="cardStack playwrightFileStack">
+            {playwrightFrameworkFiles.map((file) => (
+              <div className="miniCard" key={file}>
+                <h3>{file}</h3>
+                <p>{file.includes('AuthPage') ? 'Registration and login form behavior lives in the page object.' : file.includes('HomePage') ? 'Homepage navigation, popup safety, and header assertions live here.' : file.includes('testData') ? 'Reusable yopmail registration data and random helpers live here.' : 'Part of the reusable Playwright test framework.'}</p>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="codePanel accent">
-          <div className="codeTitle">Code generation policy</div>
-          <pre>{`AI creates a CodeChangePlan
-      ↓
-Code service applies deterministic changes
-      ↓
-npm ci + typecheck + lint + Playwright
-      ↓
-Branch + PR + Jira evidence + Slack summary`}</pre>
+          <div className="codeTitle">Framework commands</div>
+          <pre>{`npx playwright test --grep "@homepage"
+npx playwright test --grep "@smoke"
+npx playwright test --grep "@login"
+npx playwright test --grep "@register"
+
+Debug artifacts:
+${playwrightDebugArtifacts.join('\n')}`}</pre>
         </div>
       </section>
 
@@ -895,27 +1043,84 @@ Branch + PR + Jira evidence + Slack summary`}</pre>
         </div>
       </section>
 
-      <section className="section split">
-        <div>
-          <SectionHeader icon={<TestTube2 />} title="CI/CD Execution Model" subtitle="One framework pattern, three enterprise-ready pipeline targets." />
-          <div className="cardStack">
-            {pipelines.map((pipeline) => (
-              <div className="miniCard" key={pipeline.name}>
-                <h3>{pipeline.name}</h3>
-                <p>{pipeline.detail}</p>
-              </div>
-            ))}
+      <section className="section">
+        <SectionHeader icon={<TestTube2 />} title="GitHub Actions & Ticket Management" subtitle="Connected CI workflow for builds, Jira ticket context, Playwright runs, artifacts, user stories, and bugs." />
+        <div className="githubActionsShell">
+          <div className="githubHeroPanel">
+            <div className="panelTitle">
+              <strong>QA Automation Pipeline</strong>
+              <span>Active workflow</span>
+            </div>
+            <p>Runs on push, pull request, or manual workflow dispatch. Manual runs can accept a Jira ticket key and a Playwright tag such as @smoke, @login, @cart, or @checkout.</p>
+            <div className="githubCommand">
+              <code>.github/workflows/qa-automation.yml</code>
+            </div>
+            <div className="githubStats">
+              <Metric value="3" label="Triggers" />
+              <Metric value="2" label="Issue forms" />
+              <Metric value="5" label="Core secrets" />
+            </div>
           </div>
-        </div>
-        <div className="codePanel">
-          <div className="codeTitle">Validation gate</div>
-          <pre>{`npm ci
-tsc --noEmit
-npm run lint
-npm run qa:analyze -- --issue=QA-123
-npx playwright test --project=chromium
-upload reports + traces
-open PR only after gates pass`}</pre>
+
+          <div className="githubWorkflowGrid">
+            <div className="assistantPanel">
+              <div className="panelTitle">
+                <strong>Workflow stages</strong>
+                <span>CI gates</span>
+              </div>
+              <div className="controlGrid">
+                {githubWorkflowSteps.map((step) => (
+                  <div className="control" key={step}>
+                    <CheckCircle2 size={18} />
+                    <span>{step}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="assistantPanel">
+              <div className="panelTitle">
+                <strong>Manual run inputs</strong>
+                <span>GitHub Actions</span>
+              </div>
+              <div className="codePanel compactCodePanel">
+                <div className="codeTitle">Run workflow</div>
+                <pre>{`test_tag=@smoke
+jira_ticket_key=PROJECT-123
+
+npm run ci:jira-ticket -- --ticket PROJECT-123
+npx playwright test --grep "@smoke"`}</pre>
+              </div>
+            </div>
+          </div>
+
+          <div className="githubWorkflowGrid">
+            <div className="assistantPanel">
+              <div className="panelTitle">
+                <strong>GitHub issue templates</strong>
+                <span>Management</span>
+              </div>
+              <div className="cardStack">
+                {githubIssueTemplates.map((template) => (
+                  <div className="miniCard" key={template.name}>
+                    <h3>{template.name}</h3>
+                    <p>{template.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="assistantPanel">
+              <div className="panelTitle">
+                <strong>Secrets to configure</strong>
+                <span>Repository settings</span>
+              </div>
+              <div className="secretGrid">
+                {githubSecrets.map((secret) => <code key={secret}>{secret}</code>)}
+              </div>
+              <p>Add them in GitHub under Repository Settings → Secrets and variables → Actions.</p>
+            </div>
+          </div>
         </div>
       </section>
 

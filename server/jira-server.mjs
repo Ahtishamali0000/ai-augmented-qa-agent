@@ -202,9 +202,13 @@ const server = http.createServer(async (request, response) => {
     try {
       const body = await readRequestJson(request);
       const grep = validatePlaywrightGrep(body?.grep || '@smoke');
-      const result = await runPlaywright(grep);
+      const runOptions = validatePlaywrightRunOptions(body);
+      const result = await runPlaywright(grep, runOptions);
 
-      sendJson(response, result.exitCode === 0 ? 200 : 500, result);
+      sendJson(response, result.exitCode === 0 ? 200 : 500, {
+        ...result,
+        error: result.exitCode === 0 ? undefined : result.stderr || 'Playwright run failed',
+      });
     } catch (error) {
       sendJson(response, error.statusCode || 500, {
         error: error.message || 'Failed to run Playwright',
@@ -821,7 +825,16 @@ function validatePlaywrightGrep(value) {
   return tags.join('|');
 }
 
-function runPlaywright(grep) {
+function validatePlaywrightRunOptions(body = {}) {
+  const workers = Number(body.workers || 2);
+
+  return {
+    headed: Boolean(body.headed),
+    workers: Number.isFinite(workers) ? Math.min(Math.max(workers, 1), 4) : 2,
+  };
+}
+
+function runPlaywright(grep, options = { headed: false, workers: 2 }) {
   if (activePlaywrightRun) {
     const error = new Error('A Playwright run is already in progress');
     error.statusCode = 409;
@@ -829,13 +842,39 @@ function runPlaywright(grep) {
   }
 
   return new Promise((resolveRun) => {
-    const command = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+    const command = process.execPath;
+    const playwrightCli = resolve(process.cwd(), 'node_modules', '@playwright', 'test', 'cli.js');
+    const args = [playwrightCli, 'test', '--grep', grep, '--workers', String(options.workers)];
+    if (options.headed) {
+      args.push('--headed');
+    }
     const startedAt = new Date().toISOString();
-    const child = spawn(command, ['playwright', 'test', '--grep', grep], {
-      cwd: process.cwd(),
-      env: process.env,
-      shell: false,
-    });
+    const env = sanitizeProcessEnv(process.env);
+    let child;
+
+    try {
+      child = spawn(command, args, {
+        cwd: process.cwd(),
+        env,
+        shell: false,
+        windowsHide: true,
+      });
+    } catch (error) {
+      resolveRun({
+        grep,
+        exitCode: 1,
+        passed: false,
+        startedAt,
+        finishedAt: new Date().toISOString(),
+        stdout: '',
+        stderr: `Failed to start Playwright: ${error.message}`,
+        report: readPlaywrightReportSummary(`Failed to start Playwright: ${error.message}`),
+        mode: options.headed ? 'headed' : 'headless',
+        workers: options.workers,
+      });
+      return;
+    }
+
     activePlaywrightRun = child;
     let stdout = '';
     let stderr = '';
@@ -848,6 +887,22 @@ function runPlaywright(grep) {
       stderr += chunk.toString();
     });
 
+    child.on('error', (error) => {
+      activePlaywrightRun = null;
+      resolveRun({
+        grep,
+        exitCode: 1,
+        passed: false,
+        startedAt,
+        finishedAt: new Date().toISOString(),
+        stdout: stdout.slice(-8000),
+        stderr: `Failed to start Playwright: ${error.message}`,
+        report: readPlaywrightReportSummary(`Failed to start Playwright: ${error.message}`),
+        mode: options.headed ? 'headed' : 'headless',
+        workers: options.workers,
+      });
+    });
+
     child.on('close', (exitCode) => {
       activePlaywrightRun = null;
       resolveRun({
@@ -858,13 +913,23 @@ function runPlaywright(grep) {
         finishedAt: new Date().toISOString(),
         stdout: stdout.slice(-8000),
         stderr: stderr.slice(-8000),
-        report: readPlaywrightReportSummary(),
+        report: readPlaywrightReportSummary(`${stderr}\n${stdout}`),
+        mode: options.headed ? 'headed' : 'headless',
+        workers: options.workers,
       });
     });
   });
 }
 
-function readPlaywrightReportSummary() {
+function sanitizeProcessEnv(env) {
+  return Object.fromEntries(
+    Object.entries(env)
+      .filter(([, value]) => value !== undefined && value !== null)
+      .map(([key, value]) => [key, String(value)]),
+  );
+}
+
+function readPlaywrightReportSummary(output = '') {
   const reportPath = resolve(process.cwd(), 'reports/playwright/results.json');
 
   if (!existsSync(reportPath)) {
@@ -875,11 +940,14 @@ function readPlaywrightReportSummary() {
       passed: 0,
       failed: 0,
       skipped: 0,
+      failures: output ? [createSyntheticFailure(output)] : [],
+      suggestions: suggestPlaywrightFixes(output),
     };
   }
 
   const report = JSON.parse(readFileSync(reportPath, 'utf8'));
   const specs = collectSpecs(report.suites || []);
+  const failures = collectPlaywrightFailures(specs, output);
   const summary = specs.reduce(
     (totals, spec) => {
       for (const test of spec.tests || []) {
@@ -892,7 +960,7 @@ function readPlaywrightReportSummary() {
 
       return totals;
     },
-    { exists: true, reportPath: 'reports/playwright/results.json', total: 0, passed: 0, failed: 0, skipped: 0 },
+    { exists: true, reportPath: 'reports/playwright/results.json', total: 0, passed: 0, failed: 0, skipped: 0, failures, suggestions: suggestPlaywrightFixes(output, failures) },
   );
 
   return summary;
@@ -900,6 +968,104 @@ function readPlaywrightReportSummary() {
 
 function collectSpecs(suites) {
   return suites.flatMap((suite) => [...(suite.specs || []), ...collectSpecs(suite.suites || [])]);
+}
+
+function collectPlaywrightFailures(specs, output) {
+  const failures = [];
+
+  for (const spec of specs) {
+    for (const test of spec.tests || []) {
+      const result = test.results?.find((item) => item.status && !['passed', 'skipped'].includes(item.status)) || test.results?.at(-1);
+      const status = test.status || test.outcome || result?.status || 'unknown';
+
+      if (['expected', 'passed', 'skipped'].includes(status) && (!result || ['passed', 'skipped'].includes(result.status))) {
+        continue;
+      }
+
+      const error = result?.error || result?.errors?.[0] || {};
+      const message = normalizeFailureMessage(error.message || error.snippet || output || 'Playwright test failed.');
+      failures.push({
+        title: test.title || spec.title || spec.file || 'Unknown Playwright test',
+        file: spec.file || '',
+        status,
+        duration: result?.duration || 0,
+        reason: classifyPlaywrightFailure(message),
+        message,
+        suggestion: suggestPlaywrightFixes(message).slice(0, 3),
+      });
+    }
+  }
+
+  return failures.slice(0, 10);
+}
+
+function createSyntheticFailure(output) {
+  const message = normalizeFailureMessage(output);
+
+  return {
+    title: 'Playwright startup or execution failed',
+    file: '',
+    status: 'failed',
+    duration: 0,
+    reason: classifyPlaywrightFailure(message),
+    message,
+    suggestion: suggestPlaywrightFixes(message).slice(0, 3),
+  };
+}
+
+function normalizeFailureMessage(value) {
+  return String(value || '')
+    .replace(/\u001b\[[0-9;]*m/g, '')
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .slice(0, 12)
+    .join('\n')
+    .slice(0, 1600);
+}
+
+function classifyPlaywrightFailure(message) {
+  const value = message.toLowerCase();
+  if (/cloudflare|verify you are human|checking if the site connection is secure/.test(value)) return 'Cloudflare challenge blocked the run';
+  if (/timeout|timed out|waiting for/.test(value)) return 'Element or navigation timeout';
+  if (/strict mode violation/.test(value)) return 'Locator matched multiple elements';
+  if (/login_email|login_password|credentials|required/.test(value)) return 'Missing or invalid test credentials';
+  if (/net::|err_name_not_resolved|err_connection|navigation/.test(value)) return 'Environment or network navigation failure';
+  if (/expect\(.*\)|tohave|tocontain|assert/.test(value)) return 'Assertion did not match the current UI';
+  if (/spawn|failed to start|enoent|einval/.test(value)) return 'Playwright process could not start';
+  return 'Test failed during execution';
+}
+
+function suggestPlaywrightFixes(message = '', failures = []) {
+  const text = `${message} ${failures.map((failure) => failure.message).join(' ')}`.toLowerCase();
+  const suggestions = new Set();
+
+  if (/cloudflare|verify you are human/.test(text)) {
+    suggestions.add('Do not bypass Cloudflare. Re-run when the staging site is accessible or whitelist the test environment.');
+  }
+  if (/timeout|waiting for/.test(text)) {
+    suggestions.add('Check whether the locator is visible in the current viewport and move unstable selectors into the page object.');
+    suggestions.add('Add a web-first assertion for the expected page state before the next action.');
+  }
+  if (/strict mode violation|resolved to/.test(text)) {
+    suggestions.add('Refine the page-object locator with role/name/test-id or a safer visible container.');
+  }
+  if (/login_email|login_password|credentials|required/.test(text)) {
+    suggestions.add('Set LOGIN_EMAIL and LOGIN_PASSWORD in .env, then restart the API server.');
+  }
+  if (/net::|err_name_not_resolved|err_connection|navigation/.test(text)) {
+    suggestions.add('Verify DEFAULT_TEST_ENV, DEFAULT_LOCALE, and the target base URL in .env.');
+  }
+  if (/spawn|failed to start|enoent|einval/.test(text)) {
+    suggestions.add('Run npm install and verify node_modules/@playwright/test exists.');
+    suggestions.add('Run npx playwright install chromium if browsers are missing.');
+  }
+  if (!suggestions.size) {
+    suggestions.add('Open the HTML report and inspect the trace, screenshot, and failing page-object action.');
+    suggestions.add('Re-run headed mode from the app to watch the browser and confirm the failing UI state.');
+  }
+
+  return [...suggestions].slice(0, 5);
 }
 
 function readRequestJson(request) {
