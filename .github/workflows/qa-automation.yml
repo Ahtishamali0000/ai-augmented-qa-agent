@@ -1,0 +1,93 @@
+name: QA Automation Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+    inputs:
+      test_tag:
+        description: 'Optional Playwright grep tag, for example @smoke, @login, @cart, @checkout'
+        required: false
+        default: '@smoke'
+      jira_ticket_key:
+        description: 'Optional Jira ticket key for QA Assistant context, for example PROJ-123'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  build-and-test:
+    name: Build and Playwright QA
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      CI: true
+      DEFAULT_TEST_ENV: ${{ vars.DEFAULT_TEST_ENV || 'CF' }}
+      DEFAULT_LOCALE: ${{ vars.DEFAULT_LOCALE || 'UK' }}
+      PLAYWRIGHT_BASE_URL: ${{ vars.PLAYWRIGHT_BASE_URL }}
+      JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+      JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+      JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      LOGIN_EMAIL: ${{ secrets.LOGIN_EMAIL }}
+      LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: TypeScript and Vite build
+        run: npm run build
+
+      - name: Read Jira ticket context
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.jira_ticket_key != '' }}
+        run: npm run analyze:ticket -- --ticket ${{ inputs.jira_ticket_key }}
+
+      - name: Run tagged Playwright tests
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.test_tag != '' }}
+        run: npx playwright test --grep "${{ inputs.test_tag }}"
+
+      - name: Run smoke Playwright tests
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.test_tag == '' }}
+        run: npm run test:e2e:smoke
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-html-report
+          path: reports/playwright/html
+          if-no-files-found: ignore
+
+      - name: Upload Playwright JSON results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-json-results
+          path: reports/playwright/results.json
+          if-no-files-found: ignore

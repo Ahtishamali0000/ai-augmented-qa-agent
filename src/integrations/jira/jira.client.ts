@@ -13,14 +13,31 @@ export class JiraClient {
 
   async searchAssignedTickets(maxResults = 25): Promise<JiraAssistantTicket[]> {
     const jql = 'assignee=currentUser() ORDER BY updated DESC';
-    const response = await this.searchTickets(jql, maxResults, ['summary', 'description', 'comment', 'status', 'priority', 'assignee', 'reporter', 'labels', 'components', 'issuetype', 'created', 'updated']);
+    return this.searchByJql(jql, maxResults);
+  }
 
+  async searchByJql(jql: string, maxResults = 25): Promise<JiraAssistantTicket[]> {
+    const response = await this.searchTickets(jql, maxResults, ['summary', 'description', 'comment', 'status', 'priority', 'assignee', 'reporter', 'labels', 'components', 'issuetype', 'created', 'updated']);
     return (response.issues || []).map((issue: any) => this.normalizeIssue(issue));
   }
 
   async getTicket(ticketKey: string): Promise<JiraAssistantTicket> {
     const issue = await this.request(`/rest/api/3/issue/${encodeURIComponent(ticketKey)}?fields=summary,description,comment,status,priority,assignee,reporter,labels,components,issuetype,created,updated`);
     return this.normalizeIssue(issue);
+  }
+
+  async addComment(ticketKey: string, comment: string) {
+    const trimmed = comment.trim();
+
+    if (!trimmed) {
+      throw new Error('Comment is required');
+    }
+
+    return this.request(`/rest/api/3/issue/${encodeURIComponent(ticketKey)}/comment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ body: toAtlassianDocument(trimmed) }),
+    });
   }
 
   private async request(path: string, init: RequestInit = {}) {
@@ -91,6 +108,17 @@ function extractPlainText(node: any): string {
   if (node.text) return node.text;
   if (Array.isArray(node.content)) return node.content.map(extractPlainText).filter(Boolean).join(' ');
   return '';
+}
+
+function toAtlassianDocument(value: string) {
+  return {
+    type: 'doc',
+    version: 1,
+    content: value.split(/\r?\n/).map((line) => ({
+      type: 'paragraph',
+      content: line ? [{ type: 'text', text: line }] : [],
+    })),
+  };
 }
 
 function extractAcceptanceCriteria(node: any): string[] {

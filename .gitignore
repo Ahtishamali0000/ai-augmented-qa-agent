@@ -27,6 +27,7 @@ blob-report/
 trace.zip
 *.webm
 *.mp4
+tests/.features-gen/
 
 # Generated QA artifacts
 generated-tests/pending/
@@ -52,8 +53,8 @@ tmp/
 temp/
 .cache/
 .turbo/
+.tmp/
 
 # Package manager caches
 .npm/
 .pnpm-store/
-

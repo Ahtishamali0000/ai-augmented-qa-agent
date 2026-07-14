@@ -7,9 +7,9 @@ export class PlaywrightScriptGeneratorService {
 
   async generate(ticket: JiraAssistantTicket, analysis: QaAssistantAnalysis): Promise<PlaywrightScriptSuggestion> {
     const module = analysis.suggested_playwright_script.module;
-    const fileName = `${ticket.key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.spec.ts`;
+    const fileName = `${ticket.key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.feature`;
     const pendingPath = join(this.rootDir, 'generated-tests', 'pending', fileName);
-    const generatedCode = this.createCode(ticket, analysis);
+    const generatedCode = this.createFeature(ticket, analysis);
 
     await mkdir(join(this.rootDir, 'generated-tests', 'pending'), { recursive: true });
     await writeFile(pendingPath, generatedCode, 'utf8');
@@ -21,44 +21,29 @@ export class PlaywrightScriptGeneratorService {
       risk_level: analysis.risk_level,
       generated_code: generatedCode,
       requires_human_review: true,
-      assumptions: ['Review selectors against the current storefront before approving.', 'Generated script stays in pending until approved.'],
+      assumptions: ['Map each pending business step to an existing POM method before activation.', 'Generated feature stays in pending until approved.'],
     };
   }
 
-  private createCode(ticket: JiraAssistantTicket, analysis: QaAssistantAnalysis) {
+  private createFeature(ticket: JiraAssistantTicket, analysis: QaAssistantAnalysis) {
     const tags = analysis.suggested_playwright_script.tags.join(' ');
-    const title = ticket.title.replace(/'/g, "\\'");
+    const criteria = ticket.acceptanceCriteria.length ? ticket.acceptanceCriteria : ['Acceptance criteria must be supplied'];
+    const scenarios = criteria.map((criterion, index) => `
+  @ac:AC-${String(index + 1).padStart(3, '0')} @coverage:missing @manual @skip
+  Scenario: ${this.gherkinText(criterion)}
+    Given the ${analysis.suggested_playwright_script.module} preconditions for ${ticket.key} are satisfied
+    When the customer performs the acceptance criterion
+    Then ${this.gherkinText(criterion)}
+`).join('');
 
-    return `import { expect, test } from '../../../fixtures/testFixture';
-import { SearchPage } from '../../../pages/SearchPage';
-import { ProductPage } from '../../../pages/ProductPage';
-import { CartPage } from '../../../pages/CartPage';
-
-test.describe('${ticket.key} ${title}', () => {
-  test('${tags} validates Jira ticket acceptance criteria', async ({ homePage, page }) => {
-    await homePage.goto();
-
-    const searchPage = new SearchPage(page);
-    await searchPage.search('heels');
-    await searchPage.expectResults();
-
-    await page.getByRole('link').filter({ hasText: /heel|shoe|sandal|boot/i }).first().click();
-
-    const productPage = new ProductPage(page);
-    await productPage.expectProductVisible();
-
-    const sizeOption = page.getByRole('button', { name: /3|4|5|6|7|8|small|medium|large/i }).first();
-    if (await sizeOption.isVisible({ timeout: 3000 }).catch(() => false)) {
-      await sizeOption.click();
-    }
-
-    await page.getByRole('button', { name: /add to bag|add to basket|add to cart/i }).click();
-
-    const cartPage = new CartPage(page);
-    await cartPage.expectCartSurface();
-    await expect(page.locator('body')).toContainText(/bag|basket|cart|added|checkout/i);
-  });
-});
+    return `@jira:${ticket.key} @module:${analysis.suggested_playwright_script.module} @priority:${ticket.priority.toLowerCase()} @risk:${analysis.risk_level.toLowerCase()} ${tags}
+Feature: ${this.gherkinText(ticket.title)}
+  Pending feature generated for review. Implement missing step and POM methods before removing @skip.
+${scenarios}
 `;
+  }
+
+  private gherkinText(value: string) {
+    return value.replace(/\r?\n/g, ' ').replace(/\s+/g, ' ').trim();
   }
 }

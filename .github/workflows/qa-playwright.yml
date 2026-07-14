@@ -1,0 +1,195 @@
+name: QA Playwright Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: Stable Playwright suite to run
+        required: true
+        default: all-stable
+        type: choice
+        options:
+          - smoke
+          - auth
+          - login
+          - homepage
+          - regression
+          - all-stable
+      environment:
+        description: Target QA environment
+        required: true
+        default: CF_UK
+        type: choice
+        options:
+          - CF_UK
+          - CF_US
+          - CF_EU
+          - UAT1_UK
+          - UAT1_US
+          - UAT1_EU
+      headed:
+        description: Run browser headed
+        required: true
+        default: false
+        type: boolean
+      jira_ticket_key:
+        description: Jira ticket key for future AI-triggered execution
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+jobs:
+  qa-playwright-tests:
+    name: QA Playwright Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    env:
+      CI: true
+      CF_UK_URL: https://cfstaging.ego.co.uk/
+      CF_US_URL: https://cfstaging.egoshoes.com/us
+      CF_EU_URL: https://cfstaging.egoshoes.com/eu
+      UAT1_UK_URL: https://cf-uat1.ego.co.uk/
+      UAT1_US_URL: https://cf-uat1.egoshoes.com/us
+      UAT1_EU_URL: https://cf-uat1.egoshoes.com/eu
+      DEFAULT_TEST_ENV: CF
+      DEFAULT_LOCALE: UK
+      LOGIN_EMAIL: ${{ secrets.LOGIN_EMAIL }}
+      LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+      JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+      JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+      JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Resolve workflow inputs
+        id: qa-inputs
+        shell: bash
+        run: |
+          TEST_SUITE="${{ inputs.test_suite || 'all-stable' }}"
+          TARGET_ENV="${{ inputs.environment || 'CF_UK' }}"
+          HEADED="${{ inputs.headed || 'false' }}"
+
+          case "$TEST_SUITE" in
+            smoke) GREP_TAGS="@smoke" ;;
+            auth) GREP_TAGS="@auth" ;;
+            login) GREP_TAGS="@login" ;;
+            homepage) GREP_TAGS="@homepage" ;;
+            regression) GREP_TAGS="@regression" ;;
+            all-stable) GREP_TAGS="@smoke|@login|@homepage" ;;
+            *) echo "Unsupported test_suite: $TEST_SUITE" && exit 1 ;;
+          esac
+
+          case "$TARGET_ENV" in
+            CF_UK) BASE_URL="$CF_UK_URL"; DEFAULT_TEST_ENV="CF"; DEFAULT_LOCALE="UK" ;;
+            CF_US) BASE_URL="$CF_US_URL"; DEFAULT_TEST_ENV="CF"; DEFAULT_LOCALE="US" ;;
+            CF_EU) BASE_URL="$CF_EU_URL"; DEFAULT_TEST_ENV="CF"; DEFAULT_LOCALE="EU" ;;
+            UAT1_UK) BASE_URL="$UAT1_UK_URL"; DEFAULT_TEST_ENV="UAT1"; DEFAULT_LOCALE="UK" ;;
+            UAT1_US) BASE_URL="$UAT1_US_URL"; DEFAULT_TEST_ENV="UAT1"; DEFAULT_LOCALE="US" ;;
+            UAT1_EU) BASE_URL="$UAT1_EU_URL"; DEFAULT_TEST_ENV="UAT1"; DEFAULT_LOCALE="EU" ;;
+            *) echo "Unsupported environment: $TARGET_ENV" && exit 1 ;;
+          esac
+
+          echo "test_suite=$TEST_SUITE" >> "$GITHUB_OUTPUT"
+          echo "target_environment=$TARGET_ENV" >> "$GITHUB_OUTPUT"
+          echo "grep_tags=$GREP_TAGS" >> "$GITHUB_OUTPUT"
+          echo "base_url=$BASE_URL" >> "$GITHUB_OUTPUT"
+          echo "default_test_env=$DEFAULT_TEST_ENV" >> "$GITHUB_OUTPUT"
+          echo "default_locale=$DEFAULT_LOCALE" >> "$GITHUB_OUTPUT"
+          echo "headed=$HEADED" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: TypeScript and Vite build
+        run: npm run build
+
+      - name: Future AI Jira execution placeholder
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.jira_ticket_key != '' }}
+        run: echo "Future AI Jira execution for ticket: ${{ inputs.jira_ticket_key }}"
+
+      - name: Run selected Playwright tests
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ steps.qa-inputs.outputs.base_url }}
+          DEFAULT_TEST_ENV: ${{ steps.qa-inputs.outputs.default_test_env }}
+          DEFAULT_LOCALE: ${{ steps.qa-inputs.outputs.default_locale }}
+          GREP_TAGS: ${{ steps.qa-inputs.outputs.grep_tags }}
+          HEADED: ${{ steps.qa-inputs.outputs.headed }}
+        shell: bash
+        run: |
+          HEADED_FLAG=""
+          if [ "$HEADED" = "true" ]; then
+            HEADED_FLAG="--headed"
+            xvfb-run --auto-servernum npx playwright test --grep "$GREP_TAGS" --project=chromium $HEADED_FLAG
+          else
+            npx playwright test --grep "$GREP_TAGS" --project=chromium
+          fi
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-html-report
+          path: reports/playwright/html
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Upload Playwright JSON report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-json-report
+          path: reports/playwright/results.json
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Upload Playwright test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: |
+            test-results
+            reports/playwright/artifacts
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Add execution summary
+        if: always()
+        shell: bash
+        run: |
+          RESULT="${{ job.status }}"
+          {
+            echo "### QA Playwright Execution Summary"
+            echo "- Environment: ${{ steps.qa-inputs.outputs.target_environment }}"
+            echo "- Test Suite: ${{ steps.qa-inputs.outputs.test_suite }}"
+            echo "- Grep Tags: ${{ steps.qa-inputs.outputs.grep_tags }}"
+            echo "- Base URL: ${{ steps.qa-inputs.outputs.base_url }}"
+            echo "- Node Version: $(node --version)"
+            echo "- Result: $RESULT"
+            echo "- Report Artifact: playwright-html-report"
+            echo ""
+            echo "Registration automation is currently excluded from all-stable CI because Cloudflare verification may block full registration on CF staging. It can be executed manually with @register after QA environment allowlisting. Do not bypass Cloudflare."
+          } >> "$GITHUB_STEP_SUMMARY"

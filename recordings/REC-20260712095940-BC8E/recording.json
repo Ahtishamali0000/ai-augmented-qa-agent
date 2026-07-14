@@ -1,0 +1,468 @@
+{
+  "recordingId": "REC-20260712095940-BC8E",
+  "url": "https://cfstaging.egoshoes.com/eu",
+  "browser": "chromium",
+  "workspaceId": "existing-workspace",
+  "environment": "Local",
+  "status": "finalized",
+  "createdAt": "2026-07-12T09:59:41.402Z",
+  "startedAt": "2026-07-12T09:59:41.402Z",
+  "stoppedAt": "2026-07-12T10:01:06.354Z",
+  "currentUrl": "https://cfstaging.egoshoes.com/eu/cart",
+  "pageTitle": "England Logo Baseball Cap In Red | EGO EU | EGO",
+  "navigationError": "",
+  "activePageIndex": 0,
+  "actionCount": 6,
+  "durationMs": 98208,
+  "draft": {
+    "recordingId": "REC-20260712095940-BC8E",
+    "websiteUrl": "https://cfstaging.egoshoes.com/eu",
+    "feature": "Homepage",
+    "scenario": "Recorded user journey",
+    "module": "homepage",
+    "flow": [
+      "opens the website",
+      "opens the website",
+      "opens the website",
+      "opens the website",
+      "opens the website",
+      "opens the website"
+    ],
+    "timeline": [
+      {
+        "id": "STEP-001",
+        "order": 1,
+        "action": "goto",
+        "target": "https://cfstaging.egoshoes.com/eu",
+        "value": "",
+        "page": "Eu",
+        "component": "Content",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "https://cfstaging.egoshoes.com/eu",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "https://cfstaging.egoshoes.com/eu",
+          "primary": "https://cfstaging.egoshoes.com/eu",
+          "fallbacks": []
+        }
+      },
+      {
+        "id": "STEP-002",
+        "order": 2,
+        "action": "goto",
+        "target": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+        "value": "",
+        "page": "WomenS Shoes  Fashion Clothing",
+        "component": "Content",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+          "primary": "https://cfstaging.egoshoes.com/eu",
+          "fallbacks": []
+        }
+      },
+      {
+        "id": "STEP-003",
+        "order": 3,
+        "action": "goto",
+        "target": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+        "value": "",
+        "page": "WomenS Shoes  Fashion Clothing",
+        "component": "Content",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+          "primary": "https://cfstaging.egoshoes.com/eu",
+          "fallbacks": []
+        }
+      },
+      {
+        "id": "STEP-004",
+        "order": 4,
+        "action": "goto",
+        "target": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+        "value": "",
+        "page": "WomenS Shoes  Fashion Clothing",
+        "component": "Content",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+          "primary": "https://cfstaging.egoshoes.com/eu/c/new-in",
+          "fallbacks": []
+        }
+      },
+      {
+        "id": "STEP-005",
+        "order": 5,
+        "action": "goto",
+        "target": "Women’s New In | New Shoes & Clothing | EGO",
+        "value": "",
+        "page": "WomenS New In",
+        "component": "Content",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "Women’s New In | New Shoes & Clothing | EGO",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "Women’s New In | New Shoes & Clothing | EGO",
+          "primary": "https://cfstaging.egoshoes.com/eu/p/htm056-england-logo-baseball-cap-in-red/37132",
+          "fallbacks": []
+        }
+      },
+      {
+        "id": "STEP-006",
+        "order": 6,
+        "action": "goto",
+        "target": "England Logo Baseball Cap In Red | EGO EU | EGO",
+        "value": "",
+        "page": "England Logo Baseball Cap In Red",
+        "component": "Content",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "England Logo Baseball Cap In Red | EGO EU | EGO",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "England Logo Baseball Cap In Red | EGO EU | EGO",
+          "primary": "https://cfstaging.egoshoes.com/eu/cart",
+          "fallbacks": []
+        }
+      }
+    ],
+    "generatedFiles": [
+      "generated-tests/pending/recordings/REC-20260712095940-BC8E/features/homepage/REC-20260712095940-BC8E.feature",
+      "generated-tests/pending/recordings/REC-20260712095940-BC8E/pages/generated/HomepagePage.ts",
+      "generated-tests/pending/recordings/REC-20260712095940-BC8E/steps/generated/homepage.recorded.steps.ts",
+      "generated-tests/pending/recordings/REC-20260712095940-BC8E/utils/generated/homepage.recorded-data.ts",
+      "generated-tests/pending/recordings/REC-20260712095940-BC8E/review.json"
+    ],
+    "review": {
+      "detectedFeature": "Homepage",
+      "detectedScenario": "Recorded user journey",
+      "detectedFlow": [
+        "Eu: opens the website",
+        "WomenS Shoes  Fashion Clothing: opens the website",
+        "WomenS Shoes  Fashion Clothing: opens the website",
+        "WomenS Shoes  Fashion Clothing: opens the website",
+        "WomenS New In: opens the website",
+        "England Logo Baseball Cap In Red: opens the website"
+      ],
+      "module": "homepage",
+      "websiteUrl": "https://cfstaging.egoshoes.com/eu",
+      "generatedPageObjects": [
+        "pages/generated/HomepagePage.ts"
+      ],
+      "generatedAssertions": [],
+      "generatedSelectors": [
+        {
+          "stepId": "STEP-001",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /https:\\/\\/cfstaging\\.egoshoes\\.com\\/eu/i })",
+          "backup": "this.page.getByText(/https:\\/\\/cfstaging\\.egoshoes\\.com\\/eu/i)"
+        },
+        {
+          "stepId": "STEP-002",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /Women’s Shoes & Fashion Clothing \\| EGO EU \\| EGO/i })",
+          "backup": "this.page.getByText(/Women’s Shoes & Fashion Clothing \\| EGO EU \\| EGO/i)"
+        },
+        {
+          "stepId": "STEP-003",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /Women’s Shoes & Fashion Clothing \\| EGO EU \\| EGO/i })",
+          "backup": "this.page.getByText(/Women’s Shoes & Fashion Clothing \\| EGO EU \\| EGO/i)"
+        },
+        {
+          "stepId": "STEP-004",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /Women’s Shoes & Fashion Clothing \\| EGO EU \\| EGO/i })",
+          "backup": "this.page.getByText(/Women’s Shoes & Fashion Clothing \\| EGO EU \\| EGO/i)"
+        },
+        {
+          "stepId": "STEP-005",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /Women’s New In \\| New Shoes & Clothing \\| EGO/i })",
+          "backup": "this.page.getByText(/Women’s New In \\| New Shoes & Clothing \\| EGO/i)"
+        },
+        {
+          "stepId": "STEP-006",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /England Logo Baseball Cap In Red \\| EGO EU \\| EGO/i })",
+          "backup": "this.page.getByText(/England Logo Baseball Cap In Red \\| EGO EU \\| EGO/i)"
+        }
+      ],
+      "confidenceScore": 96,
+      "potentialProblems": [
+        "Recorded data is masked/draft and should be reviewed before running against shared environments.",
+        "Generated assets are pending until human approval copies them into the active framework."
+      ]
+    }
+  },
+  "validation": {
+    "passed": true,
+    "errors": [],
+    "warnings": [
+      "No interactive user actions were captured yet."
+    ],
+    "checkedAt": "2026-07-12T10:01:19.610Z"
+  },
+  "id": "REC-20260712095940-BC8E",
+  "browserName": "chromium",
+  "actions": [
+    {
+      "recordingId": "REC-20260712095940-BC8E",
+      "stepId": "STEP-001",
+      "sequence": 1,
+      "timestamp": "2026-07-12T09:59:43.793Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://cfstaging.egoshoes.com/eu",
+        "title": ""
+      },
+      "element": {
+        "tagName": "document",
+        "text": "https://cfstaging.egoshoes.com/eu",
+        "role": "document",
+        "accessibleName": "https://cfstaging.egoshoes.com/eu",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://cfstaging.egoshoes.com/eu",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095940-BC8E/screenshots/STEP-001.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    },
+    {
+      "recordingId": "REC-20260712095940-BC8E",
+      "stepId": "STEP-002",
+      "sequence": 2,
+      "timestamp": "2026-07-12T09:59:45.820Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://cfstaging.egoshoes.com/eu",
+        "title": "Women’s Shoes & Fashion Clothing | EGO EU | EGO"
+      },
+      "element": {
+        "tagName": "document",
+        "text": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+        "role": "document",
+        "accessibleName": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://cfstaging.egoshoes.com/eu",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095940-BC8E/screenshots/STEP-002.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    },
+    {
+      "recordingId": "REC-20260712095940-BC8E",
+      "stepId": "STEP-003",
+      "sequence": 3,
+      "timestamp": "2026-07-12T09:59:47.130Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://cfstaging.egoshoes.com/eu",
+        "title": "Women’s Shoes & Fashion Clothing | EGO EU | EGO"
+      },
+      "element": {
+        "tagName": "document",
+        "text": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+        "role": "document",
+        "accessibleName": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://cfstaging.egoshoes.com/eu",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095940-BC8E/screenshots/STEP-003.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    },
+    {
+      "recordingId": "REC-20260712095940-BC8E",
+      "stepId": "STEP-004",
+      "sequence": 4,
+      "timestamp": "2026-07-12T09:59:53.347Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://cfstaging.egoshoes.com/eu/c/new-in",
+        "title": "Women’s Shoes & Fashion Clothing | EGO EU | EGO"
+      },
+      "element": {
+        "tagName": "document",
+        "text": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+        "role": "document",
+        "accessibleName": "Women’s Shoes & Fashion Clothing | EGO EU | EGO",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://cfstaging.egoshoes.com/eu/c/new-in",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095940-BC8E/screenshots/STEP-004.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    },
+    {
+      "recordingId": "REC-20260712095940-BC8E",
+      "stepId": "STEP-005",
+      "sequence": 5,
+      "timestamp": "2026-07-12T09:59:59.380Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://cfstaging.egoshoes.com/eu/p/htm056-england-logo-baseball-cap-in-red/37132",
+        "title": "Women’s New In | New Shoes & Clothing | EGO"
+      },
+      "element": {
+        "tagName": "document",
+        "text": "Women’s New In | New Shoes & Clothing | EGO",
+        "role": "document",
+        "accessibleName": "Women’s New In | New Shoes & Clothing | EGO",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://cfstaging.egoshoes.com/eu/p/htm056-england-logo-baseball-cap-in-red/37132",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095940-BC8E/screenshots/STEP-005.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    },
+    {
+      "recordingId": "REC-20260712095940-BC8E",
+      "stepId": "STEP-006",
+      "sequence": 6,
+      "timestamp": "2026-07-12T10:00:08.397Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://cfstaging.egoshoes.com/eu/cart",
+        "title": "England Logo Baseball Cap In Red | EGO EU | EGO"
+      },
+      "element": {
+        "tagName": "document",
+        "text": "England Logo Baseball Cap In Red | EGO EU | EGO",
+        "role": "document",
+        "accessibleName": "England Logo Baseball Cap In Red | EGO EU | EGO",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://cfstaging.egoshoes.com/eu/cart",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095940-BC8E/screenshots/STEP-006.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    }
+  ],
+  "metadata": {
+    "featureName": "Homepage",
+    "scenarioName": "Recorded user journey",
+    "testName": "",
+    "module": "homepage",
+    "suite": "Smoke",
+    "tags": [
+      "@ui",
+      "@generated"
+    ],
+    "priority": "Medium"
+  }
+}

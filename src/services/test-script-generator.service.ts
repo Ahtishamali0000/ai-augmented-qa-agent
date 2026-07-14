@@ -7,10 +7,10 @@ export class TestScriptGeneratorService {
 
   async generatePendingScript(ticket: JiraTicketSample, analysis: TicketAnalysisOutput): Promise<GeneratedScript> {
     const folder = this.resolveTargetFolder(analysis.recommended_existing_tags);
-    const fileName = `${ticket.ticket_id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.spec.ts`;
+    const fileName = `${ticket.ticket_id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.feature`;
     const pendingPath = join(this.rootDir, 'generated-tests', 'pending', fileName);
-    const finalPath = join(this.rootDir, 'tests', 'e2e', folder, fileName);
-    const content = this.createSpec(ticket, analysis);
+    const finalPath = join(this.rootDir, 'features', folder === 'smoke' ? 'homepage' : folder, fileName);
+    const content = this.createFeature(ticket, analysis);
 
     await mkdir(join(this.rootDir, 'generated-tests', 'pending'), { recursive: true });
     await writeFile(pendingPath, content, 'utf8');
@@ -32,38 +32,29 @@ export class TestScriptGeneratorService {
     return 'smoke';
   }
 
-  private createSpec(ticket: JiraTicketSample, analysis: TicketAnalysisOutput) {
+  private createFeature(ticket: JiraTicketSample, analysis: TicketAnalysisOutput) {
+    const module = this.resolveTargetFolder(analysis.recommended_existing_tags);
     const tags = [...new Set(analysis.recommended_existing_tags)].join(' ');
-    const title = ticket.title.replace(/'/g, "\\'");
+    const scenarios = ticket.acceptance_criteria.map((criterion, index) => `
+  @ac:AC-${String(index + 1).padStart(3, '0')} @coverage:missing @manual @skip
+  Scenario: ${this.gherkinText(criterion)}
+    Given the ${module} preconditions for ${ticket.ticket_id} are satisfied
+    When the customer performs the acceptance criterion
+    Then ${this.gherkinText(criterion)}
+`).join('');
 
-    return `import { expect, test } from '../../../fixtures/testFixture';
-import { SearchPage } from '../../../pages/SearchPage';
-import { ProductPage } from '../../../pages/ProductPage';
-import { CartPage } from '../../../pages/CartPage';
-
-test('${tags} ${ticket.ticket_id} ${title}', async ({ homePage, page }) => {
-  await homePage.goto();
-
-  const searchPage = new SearchPage(page);
-  await searchPage.search('heels');
-  await searchPage.expectResults();
-
-  await page.getByRole('link').filter({ hasText: /heel|shoe|sandal|boot/i }).first().click();
-
-  const productPage = new ProductPage(page);
-  await productPage.expectProductVisible();
-
-  const sizeOption = page.getByRole('button', { name: /3|4|5|6|7|8|small|medium|large/i }).first();
-  if (await sizeOption.isVisible({ timeout: 3000 }).catch(() => false)) {
-    await sizeOption.click();
+    return `@jira:${ticket.ticket_id} @module:${module} @priority:${ticket.priority.toLowerCase()} @risk:${analysis.risk_level.toLowerCase()} ${tags}
+Feature: ${this.gherkinText(ticket.title)}
+  Pending feature generated for human review. Replace generic steps with reusable business steps and POM mappings before removing @skip.
+${scenarios || `
+  @coverage:missing @manual @skip
+  Scenario: Acceptance criteria are required
+    Then the Jira story must define testable acceptance criteria
+`}
+`;
   }
 
-  await page.getByRole('button', { name: /add to bag|add to basket|add to cart/i }).click();
-
-  const cartPage = new CartPage(page);
-  await cartPage.expectCartSurface();
-  await expect(page.locator('body')).toContainText(/bag|basket|cart|added|checkout/i);
-});
-`;
+  private gherkinText(value: string) {
+    return value.replace(/\r?\n/g, ' ').replace(/\s+/g, ' ').trim();
   }
 }

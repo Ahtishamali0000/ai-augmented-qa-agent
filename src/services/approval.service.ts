@@ -8,7 +8,11 @@ export class ApprovalService {
     const safeFileName = basename(fileName);
     const safeTargetFolder = this.validateTargetFolder(targetFolder);
     const pendingPath = join(this.rootDir, 'generated-tests', 'pending', safeFileName);
-    const finalPath = join(this.rootDir, 'tests', 'e2e', safeTargetFolder, safeFileName);
+    if (!safeFileName.endsWith('.feature')) {
+      throw new Error('Only reviewed .feature files can enter the BDD framework.');
+    }
+    const featureFolder = safeTargetFolder === 'smoke' ? 'homepage' : safeTargetFolder;
+    const finalPath = join(this.rootDir, 'features', featureFolder, safeFileName);
 
     await stat(pendingPath);
     await mkdir(dirname(finalPath), { recursive: true });

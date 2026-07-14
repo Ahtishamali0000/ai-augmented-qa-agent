@@ -1,0 +1,403 @@
+{
+  "recordingId": "REC-20260712095826-0Y5N",
+  "url": "https://google.com/",
+  "browser": "chromium",
+  "workspaceId": "existing-workspace",
+  "environment": "Local",
+  "status": "finalized",
+  "createdAt": "2026-07-12T09:58:30.102Z",
+  "startedAt": "2026-07-12T09:58:30.102Z",
+  "stoppedAt": "2026-07-12T09:59:02.498Z",
+  "currentUrl": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dgoogle%2Btranslate%26sca_esv%3D3aec22bef127626d%26source%3Dhp%26ei%3DTGVTaruMJJLW7M8P3ZKtCQ%26iflsig%3DABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB%26oq%3Dgoogle%26gs_lp%3DEgdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ%26sclient%3Dgws-wiz%26sei%3DU2VTaumUDre_nsEPvceo0QQ&q=EgRnc8e6GNPKzdIGIjAzmdiYGY7ebuFyEvx15z7QGkNtX_XkexlfgEPLESkqVgJJvJ4tWduhaarm2QGtLKAyAVJaAUM",
+  "pageTitle": "https://www.google.com/search?q=google+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB&oq=google&gs_lp=Egdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ&sclient=gws-wiz&sei=U2VTaumUDre_nsEPvceo0QQ",
+  "navigationError": "",
+  "activePageIndex": 0,
+  "actionCount": 5,
+  "durationMs": 35749,
+  "draft": {
+    "recordingId": "REC-20260712095826-0Y5N",
+    "websiteUrl": "https://google.com/",
+    "feature": "Search",
+    "scenario": "Recorded product search journey",
+    "module": "search",
+    "flow": [
+      "opens the website",
+      "opens the website",
+      "opens the website",
+      "opens the website",
+      "opens the website"
+    ],
+    "timeline": [
+      {
+        "id": "STEP-001",
+        "order": 1,
+        "action": "goto",
+        "target": "Google",
+        "value": "",
+        "page": "Google",
+        "component": "Content",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "Google",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "Google",
+          "primary": "https://www.google.com/",
+          "fallbacks": []
+        }
+      },
+      {
+        "id": "STEP-002",
+        "order": 2,
+        "action": "goto",
+        "target": "Google",
+        "value": "",
+        "page": "Google",
+        "component": "Content",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "Google",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "Google",
+          "primary": "https://www.google.com/",
+          "fallbacks": []
+        }
+      },
+      {
+        "id": "STEP-003",
+        "order": 3,
+        "action": "goto",
+        "target": "Google",
+        "value": "",
+        "page": "Google",
+        "component": "Content",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "Google",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "Google",
+          "primary": "https://www.google.com/?zx=1783850313919",
+          "fallbacks": []
+        }
+      },
+      {
+        "id": "STEP-004",
+        "order": 4,
+        "action": "goto",
+        "target": "Google Search",
+        "value": "",
+        "page": "Google Search",
+        "component": "Search",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "Google Search",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "Google Search",
+          "primary": "https://www.google.com/search?q=google+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB&oq=google&gs_lp=Egdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ&sclient=gws-wiz",
+          "fallbacks": []
+        }
+      },
+      {
+        "id": "STEP-005",
+        "order": 5,
+        "action": "goto",
+        "target": "https://www.google.com/search?q=google+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB&oq=google&gs_lp=Egdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ&sclient=gws-wiz&sei=U2VTaumUDre_nsEPvceo0QQ",
+        "value": "",
+        "page": "HttpsWwwGoogleComSearchQGoogleTranslateSca Esv3aec22bef127626dSourceHpEiTGVTaruMJJLW7M8P3ZKtCQIflsigABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnBOqGoogleGs LpEgdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww",
+        "component": "Search",
+        "intent": "opens the website",
+        "selectors": {
+          "testId": "",
+          "role": "document",
+          "name": "https://www.google.com/search?q=google+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB&oq=google&gs_lp=Egdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ&sclient=gws-wiz&sei=U2VTaumUDre_nsEPvceo0QQ",
+          "label": "",
+          "placeholder": "",
+          "id": "",
+          "css": "",
+          "text": "https://www.google.com/search?q=google+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBn",
+          "primary": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dgoogle%2Btranslate%26sca_esv%3D3aec22bef127626d%26source%3Dhp%26ei%3DTGVTaruMJJLW7M8P3ZKtCQ%26iflsig%3DABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB%26oq%3Dgoogle%26gs_lp%3DEgdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ%26sclient%3Dgws-wiz%26sei%3DU2VTaumUDre_nsEPvceo0QQ&q=EgRnc8e6GNPKzdIGIjAzmdiYGY7ebuFyEvx15z7QGkNtX_XkexlfgEPLESkqVgJJvJ4tWduhaarm2QGtLKAyAVJaAUM",
+          "fallbacks": []
+        }
+      }
+    ],
+    "generatedFiles": [
+      "generated-tests/pending/recordings/REC-20260712095826-0Y5N/features/search/REC-20260712095826-0Y5N.feature",
+      "generated-tests/pending/recordings/REC-20260712095826-0Y5N/pages/generated/SearchPage.ts",
+      "generated-tests/pending/recordings/REC-20260712095826-0Y5N/steps/generated/search.recorded.steps.ts",
+      "generated-tests/pending/recordings/REC-20260712095826-0Y5N/utils/generated/search.recorded-data.ts",
+      "generated-tests/pending/recordings/REC-20260712095826-0Y5N/review.json"
+    ],
+    "review": {
+      "detectedFeature": "Search",
+      "detectedScenario": "Recorded product search journey",
+      "detectedFlow": [
+        "Google: opens the website",
+        "Google: opens the website",
+        "Google: opens the website",
+        "Google Search: opens the website",
+        "HttpsWwwGoogleComSearchQGoogleTranslateSca Esv3aec22bef127626dSourceHpEiTGVTaruMJJLW7M8P3ZKtCQIflsigABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnBOqGoogleGs LpEgdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww: opens the website"
+      ],
+      "module": "search",
+      "websiteUrl": "https://google.com/",
+      "generatedPageObjects": [
+        "pages/generated/SearchPage.ts"
+      ],
+      "generatedAssertions": [],
+      "generatedSelectors": [
+        {
+          "stepId": "STEP-001",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /Google/i })",
+          "backup": "this.page.getByText(/Google/i)"
+        },
+        {
+          "stepId": "STEP-002",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /Google/i })",
+          "backup": "this.page.getByText(/Google/i)"
+        },
+        {
+          "stepId": "STEP-003",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /Google/i })",
+          "backup": "this.page.getByText(/Google/i)"
+        },
+        {
+          "stepId": "STEP-004",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /Google Search/i })",
+          "backup": "this.page.getByText(/Google Search/i)"
+        },
+        {
+          "stepId": "STEP-005",
+          "strategy": "role",
+          "primary": "this.page.getByRole('document', { name: /https:\\/\\/www\\.google\\.com\\/search\\?q=google\\+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB&oq=google&gs_lp=Egdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ&sclient=gws-wiz&sei=U2VTaumUDre_nsEPvceo0QQ/i })",
+          "backup": "this.page.getByText(/https:\\/\\/www\\.google\\.com\\/search\\?q=google\\+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBn/i)"
+        }
+      ],
+      "confidenceScore": 96,
+      "potentialProblems": [
+        "Recorded data is masked/draft and should be reviewed before running against shared environments.",
+        "Generated assets are pending until human approval copies them into the active framework."
+      ]
+    }
+  },
+  "validation": {
+    "passed": true,
+    "errors": [],
+    "warnings": [
+      "No interactive user actions were captured yet."
+    ],
+    "checkedAt": "2026-07-12T09:59:05.851Z"
+  },
+  "id": "REC-20260712095826-0Y5N",
+  "browserName": "chromium",
+  "actions": [
+    {
+      "recordingId": "REC-20260712095826-0Y5N",
+      "stepId": "STEP-001",
+      "sequence": 1,
+      "timestamp": "2026-07-12T09:58:32.196Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://www.google.com/",
+        "title": "Google"
+      },
+      "element": {
+        "tagName": "document",
+        "text": "Google",
+        "role": "document",
+        "accessibleName": "Google",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://www.google.com/",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095826-0Y5N/screenshots/STEP-001.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    },
+    {
+      "recordingId": "REC-20260712095826-0Y5N",
+      "stepId": "STEP-002",
+      "sequence": 2,
+      "timestamp": "2026-07-12T09:58:33.256Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://www.google.com/",
+        "title": "Google"
+      },
+      "element": {
+        "tagName": "document",
+        "text": "Google",
+        "role": "document",
+        "accessibleName": "Google",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://www.google.com/",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095826-0Y5N/screenshots/STEP-002.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    },
+    {
+      "recordingId": "REC-20260712095826-0Y5N",
+      "stepId": "STEP-003",
+      "sequence": 3,
+      "timestamp": "2026-07-12T09:58:33.944Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://www.google.com/?zx=1783850313919",
+        "title": "Google"
+      },
+      "element": {
+        "tagName": "document",
+        "text": "Google",
+        "role": "document",
+        "accessibleName": "Google",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://www.google.com/?zx=1783850313919",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095826-0Y5N/screenshots/STEP-003.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    },
+    {
+      "recordingId": "REC-20260712095826-0Y5N",
+      "stepId": "STEP-004",
+      "sequence": 4,
+      "timestamp": "2026-07-12T09:58:38.724Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://www.google.com/search?q=google+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB&oq=google&gs_lp=Egdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ&sclient=gws-wiz",
+        "title": "Google Search"
+      },
+      "element": {
+        "tagName": "document",
+        "text": "Google Search",
+        "role": "document",
+        "accessibleName": "Google Search",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://www.google.com/search?q=google+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB&oq=google&gs_lp=Egdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ&sclient=gws-wiz",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095826-0Y5N/screenshots/STEP-004.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    },
+    {
+      "recordingId": "REC-20260712095826-0Y5N",
+      "stepId": "STEP-005",
+      "sequence": 5,
+      "timestamp": "2026-07-12T09:58:40.463Z",
+      "actionType": "navigation",
+      "page": {
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dgoogle%2Btranslate%26sca_esv%3D3aec22bef127626d%26source%3Dhp%26ei%3DTGVTaruMJJLW7M8P3ZKtCQ%26iflsig%3DABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB%26oq%3Dgoogle%26gs_lp%3DEgdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ%26sclient%3Dgws-wiz%26sei%3DU2VTaumUDre_nsEPvceo0QQ&q=EgRnc8e6GNPKzdIGIjAzmdiYGY7ebuFyEvx15z7QGkNtX_XkexlfgEPLESkqVgJJvJ4tWduhaarm2QGtLKAyAVJaAUM",
+        "title": "https://www.google.com/search?q=google+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB&oq=google&gs_lp=Egdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ&sclient=gws-wiz&sei=U2VTaumUDre_nsEPvceo0QQ"
+      },
+      "element": {
+        "tagName": "document",
+        "text": "https://www.google.com/search?q=google+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBn",
+        "role": "document",
+        "accessibleName": "https://www.google.com/search?q=google+translate&sca_esv=3aec22bef127626d&source=hp&ei=TGVTaruMJJLW7M8P3ZKtCQ&iflsig=ABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB&oq=google&gs_lp=Egdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ&sclient=gws-wiz&sei=U2VTaumUDre_nsEPvceo0QQ",
+        "label": "",
+        "placeholder": "",
+        "testId": "",
+        "name": "",
+        "stableId": "",
+        "type": "",
+        "cssPath": ""
+      },
+      "primaryLocator": {
+        "type": "url",
+        "value": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dgoogle%2Btranslate%26sca_esv%3D3aec22bef127626d%26source%3Dhp%26ei%3DTGVTaruMJJLW7M8P3ZKtCQ%26iflsig%3DABILxe8AAAAAalNzXDR2jO2CoFchjBkblqsf4zjYmBnB%26oq%3Dgoogle%26gs_lp%3DEgdnd3Mtd2l6IgZnb29nbGUqAggBMhEQLhiABBixAxiDARjHARjRAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzILEAAYgAQYsQMYgwEyBRAAGIAEMggQABiABBixAzIIEAAYgAQYsQMyBRAAGIAEMgUQABiABEjDEFAAWNoGcAB4AJABAJgBwgOgAeQOqgEHMi00LjAuMrgBA8gBAPgBAZgCBqACww-YAwCSBwcyLTQuMC4yoAfbKLIHBzItNC4wLjK4B8MPwgcHMi0yLjMuMcgHTYAIAQ%26sclient%3Dgws-wiz%26sei%3DU2VTaumUDre_nsEPvceo0QQ&q=EgRnc8e6GNPKzdIGIjAzmdiYGY7ebuFyEvx15z7QGkNtX_XkexlfgEPLESkqVgJJvJ4tWduhaarm2QGtLKAyAVJaAUM",
+        "confidence": 1
+      },
+      "fallbackLocators": [],
+      "inputValue": "",
+      "sensitive": false,
+      "screenshotPath": "recordings/REC-20260712095826-0Y5N/screenshots/STEP-005.png",
+      "generatedStep": "the customer opens the website",
+      "pageObjectMethod": "opensTheWebsite"
+    }
+  ],
+  "metadata": {
+    "featureName": "Search",
+    "scenarioName": "Recorded product search journey",
+    "testName": "",
+    "module": "search",
+    "suite": "Smoke",
+    "tags": [
+      "@ui",
+      "@generated"
+    ],
+    "priority": "Medium"
+  }
+}

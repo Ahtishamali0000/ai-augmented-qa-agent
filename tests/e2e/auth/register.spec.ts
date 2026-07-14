@@ -1,9 +1,16 @@
-import { expect, test } from '../../../fixtures/testFixture';
-import { createRegistrationUser } from '../../../utils/testData';
+import { test } from '../../../fixtures/testFixture';
+import { generateRegistrationData } from '../../../utils/testData';
 
-test('@auth @register @regression @ui registration form accepts random yopmail email', async ({ authPage, page }) => {
+test('@register @auth @regression @destructive registration form accepts random yopmail customer data', async ({ homePage, authPage }) => {
+  test.setTimeout(120_000);
+
+  const data = generateRegistrationData();
+
+  await homePage.goto();
+  await homePage.openAccount();
   await authPage.goToRegistration();
-  const user = await authPage.fillRegistrationForm(createRegistrationUser());
-
-  await expect(page.getByDisplayValue(user.email)).toBeVisible();
+  await authPage.verifyRegistrationFormVisible();
+  await authPage.fillRegistrationForm(data);
+  await authPage.verifyCreateAccountButtonEnabled();
+  await authPage.submitRegistration();
 });

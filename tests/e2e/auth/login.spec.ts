@@ -1,9 +1,11 @@
 import { testEnv } from '../../../utils/env';
-import { expect, test } from '../../../fixtures/testFixture';
+import { test } from '../../../fixtures/testFixture';
 
-test('@auth @login @regression @ui login with configured customer credentials', async ({ authPage, page }) => {
-  test.skip(!testEnv.loginEmail || !testEnv.loginPassword, 'LOGIN_EMAIL and LOGIN_PASSWORD are required for login tests.');
+test('@auth @login @regression @ui @unstable login with configured customer credentials', async ({ authPage }) => {
+  if (!testEnv.loginEmail || !testEnv.loginPassword) {
+    throw new Error('LOGIN_EMAIL and LOGIN_PASSWORD are required for @login tests. Add them to .env before running this spec.');
+  }
 
   await authPage.login(testEnv.loginEmail, testEnv.loginPassword);
-  await expect(page.locator('body')).toContainText(/account|logout|sign out|my details|welcome/i);
+  await authPage.verifyLoginSubmitted();
 });
