@@ -13,10 +13,20 @@ export class SearchPage {
 
   async search(term: string) {
     await this.popupHandler.closeNonAuthPopups();
-    await this.header.search(term);
+    try {
+      await this.header.search(term);
+    } catch (error) {
+      if (!this.isOverlayInterception(error)) throw error;
+      await this.popupHandler.closeNonAuthPopups();
+      await this.header.search(term);
+    }
   }
 
   async expectResults() {
     await expect(this.page.locator('body')).toContainText(/results|products|sort|filter/i);
+  }
+
+  private isOverlayInterception(error: unknown) {
+    return error instanceof Error && /intercepts pointer events|Timeout.*click|locator\.click/i.test(error.message);
   }
 }

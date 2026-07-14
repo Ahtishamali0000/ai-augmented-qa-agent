@@ -45,10 +45,19 @@ export class AuthPage {
 
     const submit = this.loginButton();
     if (!(await submit.isEnabled({ timeout: 3000 }).catch(() => false))) {
-      await this.page.getByRole('checkbox', { name: /remember me/i }).click({ timeout: 1000 }).catch(() => undefined);
+      const rememberMe = this.page.getByRole('checkbox', { name: /remember me/i });
+      if (await rememberMe.isVisible({ timeout: 1000 }).catch(() => false)) {
+        await rememberMe.check({ force: true });
+        await expect(rememberMe).toBeChecked();
+      }
     }
 
-    await expect(submit, 'Expected sign-in button to be enabled after email and password are entered').toBeEnabled({ timeout: 5000 });
+    if (!(await submit.isEnabled({ timeout: 5000 }).catch(() => false))) {
+      const formState = await this.readLoginFormState(emailField, passwordField);
+      throw new Error(
+        `Expected sign-in button to be enabled after valid fields were entered. Form state: ${JSON.stringify(formState)}`,
+      );
+    }
     await submit.click();
   }
 
@@ -168,11 +177,25 @@ export class AuthPage {
   private async fillLoginField(locator: Locator, value: string) {
     await locator.click();
     await locator.fill('');
-    await locator.fill(value);
-    await locator.evaluate((element) => {
-      element.dispatchEvent(new Event('input', { bubbles: true }));
-      element.dispatchEvent(new Event('change', { bubbles: true }));
-    });
+    // The storefront validates on keyboard/input transitions. Sequential input
+    // keeps the test aligned with the real customer interaction and avoids
+    // bypassing the framework's form state with synthetic DOM events.
+    await locator.pressSequentially(value, { delay: 15 });
+  }
+
+  private async readLoginFormState(emailField: Locator, passwordField: Locator) {
+    const fieldState = async (locator: Locator) => locator.evaluate((element: HTMLInputElement) => ({
+      valueLength: element.value.length,
+      valid: element.validity.valid,
+      validationMessage: element.validationMessage,
+      required: element.required,
+    }));
+
+    return {
+      email: await fieldState(emailField),
+      password: await fieldState(passwordField),
+      formValid: await emailField.evaluate((element: HTMLInputElement) => element.form?.checkValidity() ?? false),
+    };
   }
 
   private async selectOptionIfVisible(locator: Locator, value: string) {

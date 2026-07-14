@@ -29,8 +29,8 @@ export class HeaderComponent {
       .or(page.getByRole('button', { name: /bag|basket|cart/i }))
       .first();
     this.countrySelector = header
-      .locator('button:has-text("GBP"):visible, button:has-text("USD"):visible, button:has-text("United Kingdom"):visible, button:has-text("United States"):visible')
-      .or(page.getByRole('button', { name: /country|region|currency|gbp|usd|gb|uk|us|eu/i }))
+      .locator('[data-testid*="country" i], [data-testid*="currency" i], [data-testid*="locale" i]')
+      .or(header.getByRole('button', { name: /^(gbp|usd|eur|cad|aud|aed)\b|united kingdom|united states|european union/i }))
       .first();
   }
 

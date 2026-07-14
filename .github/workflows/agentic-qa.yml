@@ -1,0 +1,129 @@
+name: Agentic QA BDD Pipeline
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: Browser project
+        required: true
+        default: chromium
+        type: choice
+        options: [chromium, firefox, webkit, all]
+      suite:
+        description: BDD suite
+        required: true
+        default: smoke
+        type: choice
+        options: [smoke, auth, regression, all-stable]
+      headed:
+        description: Run with a visible browser under Xvfb
+        required: true
+        default: false
+        type: boolean
+      allow_destructive:
+        description: Permit scenarios tagged @destructive
+        required: true
+        default: false
+        type: boolean
+      jira_ticket_key:
+        description: Optional Jira key used to filter tagged scenarios
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  bdd:
+    name: BDD ${{ inputs.browser || 'chromium' }} / ${{ inputs.suite || 'smoke' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      CI: true
+      HEADLESS: ${{ inputs.headed == true && 'false' || 'true' }}
+      ALLOW_DESTRUCTIVE_TESTS: ${{ inputs.allow_destructive == true && 'true' || 'false' }}
+      LOGIN_EMAIL: ${{ secrets.LOGIN_EMAIL }}
+      LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install selected browsers
+        shell: bash
+        run: |
+          BROWSER="${{ inputs.browser || 'chromium' }}"
+          if [ "$BROWSER" = "all" ]; then
+            npx playwright install --with-deps
+          else
+            npx playwright install --with-deps "$BROWSER"
+          fi
+
+      - name: Build application
+        run: npm run build
+
+      - name: Generate tests from Gherkin
+        run: npm run bddgen
+
+      - name: Run selected BDD suite
+        shell: bash
+        run: |
+          BROWSER="${{ inputs.browser || 'chromium' }}"
+          SUITE="${{ inputs.suite || 'smoke' }}"
+          JIRA="${{ inputs.jira_ticket_key }}"
+          case "$SUITE" in
+            smoke) TAG="@smoke" ;;
+            auth) TAG="@auth" ;;
+            regression) TAG="@regression" ;;
+            all-stable) TAG="@coverage:covered" ;;
+          esac
+          if [ -n "$JIRA" ]; then
+            if [[ ! "$JIRA" =~ ^[A-Z][A-Z0-9]+-[0-9]+$ ]]; then
+              echo "Invalid Jira key: $JIRA"
+              exit 1
+            fi
+            TAG="(?=.*$TAG)(?=.*@jira:$JIRA)"
+          fi
+          PROJECT_ARGS="--project=$BROWSER"
+          if [ "$BROWSER" = "all" ]; then
+            PROJECT_ARGS="--project=chromium --project=firefox --project=webkit"
+          fi
+          RUN="npx playwright test --config=playwright.bdd.config.ts --grep '$TAG' $PROJECT_ARGS"
+          if [ "${{ inputs.headed || false }}" = "true" ]; then
+            xvfb-run --auto-servernum bash -lc "$RUN --headed"
+          else
+            bash -lc "$RUN"
+          fi
+
+      - name: Generate Allure HTML
+        if: always()
+        run: npm run report:allure
+
+      - name: Upload QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agentic-qa-${{ github.run_id }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            reports/playwright
+            reports/allure-results
+            reports/allure-report
+            reports/markdown
+            reports/excel
+            reports/ndjson
+            reports/failures
+            reports/run-summary.json
+            test-results

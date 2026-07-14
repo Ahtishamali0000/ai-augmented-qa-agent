@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 
 type TestEnvironment = 'CF' | 'UAT1';
 type Locale = 'UK' | 'US' | 'EU';
+type CiEnvironment = 'CF_UK' | 'CF_US' | 'CF_EU' | 'UAT1_UK' | 'UAT1_US' | 'UAT1_EU';
 
 loadLocalEnv();
 
@@ -44,12 +45,24 @@ function loadLocalEnv() {
 export const testEnv = {
   environment: normalizeEnvironment(process.env.DEFAULT_TEST_ENV),
   locale: normalizeLocale(process.env.DEFAULT_LOCALE),
+  ciEnvironment: normalizeCiEnvironment(process.env.QA_TARGET_ENV),
   loginEmail: process.env.LOGIN_EMAIL || '',
   loginPassword: process.env.LOGIN_PASSWORD || '',
   get baseURL() {
-    return urls[this.environment][this.locale];
+    return process.env.PLAYWRIGHT_BASE_URL || resolveEnvironmentUrl(this.ciEnvironment, this.environment, this.locale);
   },
 };
+
+export function resolveEnvironmentUrl(ciEnvironment?: string, fallbackEnvironment?: TestEnvironment, fallbackLocale?: Locale) {
+  const selected = normalizeCiEnvironment(ciEnvironment);
+
+  if (selected) {
+    const [environment, locale] = selected.split('_') as [TestEnvironment, Locale];
+    return urls[environment][locale];
+  }
+
+  return urls[fallbackEnvironment || 'CF'][fallbackLocale || 'UK'];
+}
 
 function normalizeEnvironment(value?: string): TestEnvironment {
   return value?.toUpperCase() === 'UAT1' ? 'UAT1' : 'CF';
@@ -63,4 +76,10 @@ function normalizeLocale(value?: string): Locale {
   }
 
   return 'UK';
+}
+
+function normalizeCiEnvironment(value?: string): CiEnvironment | undefined {
+  const normalized = value?.toUpperCase();
+  const allowed: CiEnvironment[] = ['CF_UK', 'CF_US', 'CF_EU', 'UAT1_UK', 'UAT1_US', 'UAT1_EU'];
+  return allowed.find((item) => item === normalized);
 }

@@ -895,6 +895,84 @@ pre {
   background: transparent;
 }
 
+.mcpShell {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at top left, rgba(124, 58, 237, 0.2), transparent 34%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.7));
+  box-shadow: 0 24px 80px rgba(2, 6, 23, 0.3);
+}
+
+.mcpHeroPanel {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid rgba(167, 139, 250, 0.18);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.16), rgba(14, 165, 233, 0.1));
+}
+
+.mcpHeroPanel p {
+  margin: 0;
+  color: #aab8ce;
+  line-height: 1.7;
+}
+
+.mcpFlow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.mcpFlow span {
+  padding: 10px 12px;
+  border: 1px solid rgba(167, 139, 250, 0.22);
+  border-radius: 999px;
+  color: #ede9fe;
+  background: rgba(2, 6, 23, 0.32);
+  font-weight: 900;
+}
+
+.mcpFlow strong {
+  color: #7dd3fc;
+}
+
+.mcpGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.mcpToolList {
+  display: grid;
+  gap: 12px;
+}
+
+.mcpToolCard {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 16px;
+  background: rgba(2, 6, 23, 0.32);
+}
+
+.mcpToolCard code {
+  color: #ddd6fe;
+  font-weight: 900;
+}
+
+.mcpToolCard p {
+  margin: 0;
+  color: #aab8ce;
+  line-height: 1.6;
+}
+
 .successText,
 .errorText {
   margin: 0;
@@ -945,8 +1023,21 @@ pre {
 footer {
   justify-content: center;
   gap: 10px;
+  flex-wrap: wrap;
   padding: 48px 18px 64px;
   text-align: center;
+}
+
+footer nav {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+footer a {
+  color: var(--accent, #7dd3fc);
+  text-underline-offset: 3px;
 }
 
 :root[data-theme="light"] .navLinks,
@@ -1051,7 +1142,8 @@ footer {
   .assistantWorkspace,
   .assistantGrid,
   .coverageGrid,
-  .githubWorkflowGrid {
+  .githubWorkflowGrid,
+  .mcpGrid {
     grid-template-columns: 1fr;
   }
 
@@ -1117,5 +1209,3158 @@ footer {
 
   .sectionHeader {
     align-items: flex-start;
+  }
+}
+
+/* Professional QA workspace additions */
+.compactField,
+.pipelineControlGrid label {
+  display: grid;
+  gap: 6px;
+}
+
+.compactField > span,
+.pipelineControlGrid label > span,
+.inventoryFilters label > span {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.environmentContext {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 20px;
+  border-block: 1px solid var(--line);
+  background: var(--surface-inset);
+  font-size: 0.875rem;
+}
+
+.heroGridCompact {
+  grid-template-columns: minmax(0, 820px);
+  min-height: auto;
+  padding-block: clamp(48px, 8vw, 96px);
+}
+
+.environmentContext a {
+  color: var(--accent-strong);
+  overflow-wrap: anywhere;
+}
+
+.environmentContext > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--warning);
+}
+
+.pipelineWorkflow {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: workflow;
+}
+
+.pipelineWorkflow li {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text-soft);
+  background: var(--surface);
+  font-size: 0.8rem;
+}
+
+.pipelineWorkflow li::before {
+  counter-increment: workflow;
+  content: counter(workflow);
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  color: #06111f;
+  background: var(--accent-strong);
+  font-weight: 800;
+}
+
+.wideField {
+  grid-column: span 2;
+}
+
+.inventoryRunButton {
+  justify-self: start;
+}
+
+.reportCard {
+  text-decoration: none;
+}
+
+.reportCard.ready:hover {
+  border-color: var(--accent);
+}
+
+.reportCard[aria-disabled="true"] {
+  cursor: default;
+  opacity: 0.68;
+}
+
+.qaFormattedContent {
+  display: grid;
+  gap: 12px;
+  color: var(--text-soft);
+  line-height: 1.65;
+}
+
+.qaFormattedContent > * {
+  margin: 0;
+}
+
+.qaFormattedContent h2,
+.qaFormattedContent h3,
+.qaFormattedContent h4 {
+  color: var(--text-main);
+  font-size: 1rem;
+}
+
+.qaFormattedContent ul,
+.qaFormattedContent ol {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.qaKeyValue {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.35fr) 1fr;
+  gap: 12px;
+}
+
+.qaKeyValue strong {
+  color: var(--text-main);
+}
+
+.qaChecklist {
+  padding: 0 !important;
+  list-style: none;
+}
+
+.qaChecklist li {
+  display: flex;
+  gap: 8px;
+}
+
+.qaWarning {
+  padding: 12px;
+  border-left: 3px solid var(--warning);
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+}
+
+.qaCommentPreview {
+  display: grid;
+  gap: 16px;
+  max-height: 520px;
+  padding: 18px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text-main);
+  background: var(--surface-inset);
+  white-space: normal;
+}
+
+.qaCommentPreview .secondaryBtn {
+  justify-self: start;
+}
+
+.testCaseMeta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .pipelineWorkflow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .pipelineWorkflow,
+  .testCaseMeta {
+    grid-template-columns: 1fr;
+  }
+
+  .wideField {
+    grid-column: auto;
+  }
+
+  .qaKeyValue {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+/* Operational dashboard refinements */
+:root {
+  --surface: #101827;
+  --surface-strong: #162235;
+  --surface-muted: #0c1320;
+  --surface-inset: #0a111d;
+  --text-main: #f4f7fb;
+  --text-soft: #c4cfdd;
+  --text-muted: #8fa0b6;
+  --line: #26364d;
+  --line-strong: #3d5a78;
+  --accent: #38bdf8;
+  --accent-strong: #67e8f9;
+  --success: #4ade80;
+  --warning: #facc15;
+  --danger: #fb7185;
+  --chip-bg: #102d42;
+  --chip-text: #b9ecff;
+}
+
+:root[data-theme="light"] {
+  --surface: #ffffff;
+  --surface-strong: #f4f7fb;
+  --surface-muted: #eef3f8;
+  --surface-inset: #f8fafc;
+  --text-main: #111827;
+  --text-soft: #344256;
+  --text-muted: #66758a;
+  --line: #d7e0ea;
+  --line-strong: #a8b7c8;
+  --accent: #0369a1;
+  --accent-strong: #075985;
+  --success: #15803d;
+  --warning: #a16207;
+  --danger: #be123c;
+  --chip-bg: #e7f4fb;
+  --chip-text: #075985;
+}
+
+body,
+:root[data-theme="light"] body {
+  color: var(--text-main);
+  background: var(--surface-inset);
+}
+
+body::before {
+  display: none;
+}
+
+h1,
+h2 {
+  letter-spacing: 0;
+}
+
+.navLinks,
+.heroCard,
+.codePanel,
+.archNode,
+.card,
+.control,
+.roadmapItem,
+.artifactItem,
+.decisionCard,
+.miniCard,
+.riskPanel,
+.assistantShell,
+.assistantPanel,
+.ticketCard,
+.emptyState,
+.timelineItem,
+.checkList li,
+.assistantBlock,
+.commentCard,
+.metric,
+.githubActionsShell,
+.githubHeroPanel,
+.mcpShell,
+.mcpHeroPanel,
+.mcpToolCard,
+.secretGrid code,
+.testCaseCard,
+.coverageCard,
+.contentBlock,
+.metaItem {
+  border-color: var(--line);
+  border-radius: 8px;
+  color: var(--text-main);
+  background: var(--surface);
+  box-shadow: 0 14px 34px rgba(2, 6, 23, 0.16);
+}
+
+:root[data-theme="light"] .navLinks,
+:root[data-theme="light"] .heroCard,
+:root[data-theme="light"] .codePanel,
+:root[data-theme="light"] .archNode,
+:root[data-theme="light"] .card,
+:root[data-theme="light"] .control,
+:root[data-theme="light"] .roadmapItem,
+:root[data-theme="light"] .artifactItem,
+:root[data-theme="light"] .decisionCard,
+:root[data-theme="light"] .miniCard,
+:root[data-theme="light"] .riskPanel,
+:root[data-theme="light"] .assistantShell,
+:root[data-theme="light"] .assistantPanel,
+:root[data-theme="light"] .ticketCard,
+:root[data-theme="light"] .emptyState,
+:root[data-theme="light"] .timelineItem,
+:root[data-theme="light"] .checkList li,
+:root[data-theme="light"] .assistantBlock,
+:root[data-theme="light"] .commentCard,
+:root[data-theme="light"] .metric,
+:root[data-theme="light"] .githubActionsShell,
+:root[data-theme="light"] .githubHeroPanel,
+:root[data-theme="light"] .mcpShell,
+:root[data-theme="light"] .mcpHeroPanel,
+:root[data-theme="light"] .mcpToolCard,
+:root[data-theme="light"] .secretGrid code,
+:root[data-theme="light"] .testCaseCard,
+:root[data-theme="light"] .coverageCard,
+:root[data-theme="light"] .contentBlock,
+:root[data-theme="light"] .metaItem {
+  color: var(--text-main);
+  background: var(--surface);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+}
+
+.assistantShell,
+.githubActionsShell,
+.mcpShell {
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.assistantToolbar,
+.assistantScopeBar,
+.assistantSidebar {
+  border-color: var(--line);
+  background: var(--surface-strong);
+}
+
+.assistantMain {
+  background: var(--surface-inset);
+}
+
+.assistantPanel {
+  gap: 16px;
+  border: 1px solid var(--line);
+}
+
+.assistantPanel p,
+.assistantPanel li,
+.ticketCard p,
+.emptyState,
+.heroText,
+.sectionHeader p,
+.metric span,
+.card p,
+.archNode p,
+.miniCard p,
+.decisionCard p,
+.roadmapItem p,
+.riskPanel p,
+.githubHeroPanel p,
+.mcpHeroPanel p,
+.mcpToolCard p,
+footer {
+  color: var(--text-soft);
+}
+
+.panelTitle strong,
+.ticketHeader strong,
+.ticketDetailHeader h3,
+.commentCard strong,
+.metric strong,
+.miniCard h3,
+.testCaseHeader strong,
+.contentBlock strong,
+.assistantBlock strong,
+.coverageHeader strong,
+.metaItem strong {
+  color: var(--text-main);
+}
+
+.primaryBtn,
+.secondaryBtn,
+.runnerControls select,
+.toggleControl,
+.themeToggle,
+.themeToggle button {
+  border-radius: 8px;
+}
+
+.primaryBtn {
+  color: #06111f;
+  background: #67e8f9;
+  box-shadow: none;
+}
+
+.secondaryBtn,
+.runnerControls select,
+.toggleControl {
+  border: 1px solid var(--line);
+  color: var(--text-main);
+  background: var(--surface);
+}
+
+.themeToggle {
+  background: var(--surface);
+}
+
+.themeToggle button.active {
+  color: #06111f;
+  background: #67e8f9;
+}
+
+:root[data-theme="light"] .themeToggle button.active,
+:root[data-theme="light"] .primaryBtn {
+  color: #ffffff;
+  background: #0369a1;
+}
+
+.jiraFilters span,
+.jiraFilters a,
+.ticketMeta span,
+.ticketHeader span,
+.chipRow span,
+.statusBadge,
+.panelTitle span,
+.roadmapItem span,
+.heroPipeline span,
+.codeTitle {
+  border: 1px solid var(--line);
+  color: var(--chip-text);
+  background: var(--chip-bg);
+}
+
+.ticketCard {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  text-align: left;
+}
+
+.ticketCard:hover {
+  border-color: var(--accent);
+  transform: none;
+}
+
+.selectedCard {
+  border-color: var(--success);
+  box-shadow: inset 4px 0 0 var(--success);
+}
+
+.ticketHeader {
+  margin-bottom: 0;
+}
+
+.ticketSummary {
+  margin: 0;
+  color: var(--text-main);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.ticketMetaGrid,
+.ticketOverviewGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.ticketMetaGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ticketOverviewGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.twoColumnMeta {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metaItem {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+}
+
+.metaItem span {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.metaItem strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.ticketDetailHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  padding-bottom: 4px;
+}
+
+.ticketDetailHeader h3 {
+  margin: 4px 0 0;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.kicker {
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.contentBlock,
+.testCaseCard,
+.coverageCard {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+}
+
+.contentBlock p,
+.subtleBlock p {
+  margin: 0;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.subtleBlock {
+  background: var(--surface-inset);
+}
+
+.numberedList {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.numberedList li {
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+
+.structuredText {
+  display: grid;
+  gap: 12px;
+}
+
+.structuredText h4 {
+  margin: 10px 0 0;
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 22px;
+}
+
+.structuredText h4:first-child {
+  margin-top: 0;
+}
+
+.structuredText p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.structuredText ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.structuredText li {
+  color: var(--text-soft);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.ticketDetailView,
+.qaAnalysisPanel {
+  display: grid;
+  gap: 18px;
+}
+
+.ticketHeaderCard,
+.jiraDocSection,
+.ticketSummarySidebar,
+.qaAnalysisPanel,
+.qaCard,
+.jiraMetricCard,
+.qaTestCaseCard,
+.jiraCommentCard {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 14px 34px rgba(2, 6, 23, 0.14);
+}
+
+:root[data-theme="light"] .ticketHeaderCard,
+:root[data-theme="light"] .jiraDocSection,
+:root[data-theme="light"] .ticketSummarySidebar,
+:root[data-theme="light"] .qaAnalysisPanel,
+:root[data-theme="light"] .qaCard,
+:root[data-theme="light"] .jiraMetricCard,
+:root[data-theme="light"] .qaTestCaseCard,
+:root[data-theme="light"] .jiraCommentCard {
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+}
+
+.ticketHeaderCard {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.ticketHeaderMain,
+.ticketBadgeRow,
+.ticketHeaderMeta,
+.jiraSectionTitleRow,
+.qaTestCaseHeader,
+.automationActionRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.ticketHeaderMain,
+.jiraSectionTitleRow,
+.qaTestCaseHeader {
+  justify-content: space-between;
+}
+
+.ticketKey {
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ticketHeaderCard h2 {
+  margin: 6px 0 0;
+  color: var(--text-main);
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.2;
+}
+
+.ticketBadgeRow {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.jiraBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text-soft);
+  background: var(--surface-muted);
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.jiraBadge-success {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, var(--surface));
+}
+
+.jiraBadge-warning {
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 12%, var(--surface));
+}
+
+.jiraBadge-danger {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
+}
+
+.jiraBadge-info {
+  color: var(--accent-strong);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+}
+
+.ticketHeaderMeta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ticketHeaderMeta div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-muted);
+}
+
+.ticketHeaderMeta span,
+.jiraMetricCard span {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ticketHeaderMeta strong {
+  color: var(--text-main);
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+
+.ticketExternalLink {
+  width: fit-content;
+  color: var(--accent-strong);
+  font-weight: 900;
+}
+
+.ticketDocumentLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 18px;
+  align-items: start;
+}
+
+.ticketDocumentMain {
+  display: grid;
+  gap: 18px;
+}
+
+.ticketSummarySidebar {
+  position: sticky;
+  top: 18px;
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.ticketSummarySidebar h3,
+.jiraDocSection h3,
+.qaAnalysisPanel h3,
+.qaCard h4 {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 22px;
+}
+
+.ticketSummarySidebar p,
+.jiraSectionTitleRow p {
+  margin: 6px 0 0;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.jiraDocSection,
+.qaCard {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.jiraRichText {
+  display: grid;
+  gap: 12px;
+}
+
+.jiraRichText h4 {
+  margin: 8px 0 0;
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 22px;
+}
+
+.jiraRichText h4:first-child {
+  margin-top: 0;
+}
+
+.jiraRichText p,
+.jiraRichText li,
+.jiraCommentCard p,
+.qaCard p,
+.qaCard li,
+.qaTestCaseCard p,
+.qaTestCaseCard li {
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.jiraRichText p,
+.jiraCommentCard p,
+.qaCard p,
+.qaTestCaseCard p {
+  margin: 0;
+}
+
+.jiraRichText ul,
+.qaCard ul,
+.qaTestCaseCard ol {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.acceptanceChecklist,
+.jiraCommentStack,
+.testCaseGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.acceptanceItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-muted);
+}
+
+.acceptanceItem span {
+  color: var(--accent-strong);
+  font-weight: 900;
+}
+
+.acceptanceItem p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.jiraEmptyState {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text-soft);
+  background: var(--surface-muted);
+}
+
+.jiraSectionTitleRow {
+  align-items: center;
+}
+
+.jiraSectionTitleRow > span {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--chip-text);
+  background: var(--chip-bg);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.jiraCommentCard {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  background: var(--surface-muted);
+}
+
+.jiraCommentHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.jiraCommentHeader strong {
+  color: var(--text-main);
+}
+
+.jiraCommentHeader span {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.jiraCommentCard .jiraDocSection {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.jiraCommentCard .jiraDocSection h3 {
+  display: none;
+}
+
+.qaAnalysisPanel {
+  padding: 18px;
+}
+
+.qaMetricGrid,
+.coverageSummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.qaAnalysisGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr);
+  gap: 14px;
+}
+
+.jiraMetricCard {
+  display: grid;
+  gap: 8px;
+  min-height: 90px;
+  padding: 14px;
+  background: var(--surface-muted);
+}
+
+.jiraMetricCard strong {
+  color: var(--text-main);
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.jiraMetricCard-success strong {
+  color: var(--success);
+}
+
+.jiraMetricCard-warning strong {
+  color: var(--warning);
+}
+
+.jiraMetricCard-danger strong {
+  color: var(--danger);
+}
+
+.jiraMetricCard-info strong {
+  color: var(--accent-strong);
+}
+
+.testCaseGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.qaTestCaseCard {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  background: var(--surface-muted);
+}
+
+.qaTestCaseCard h5 {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.qaTestCaseCard strong {
+  color: var(--text-main);
+  font-size: 13px;
+}
+
+.qaTestCaseHeader span {
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.automationActionRow {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1100px) {
+  .ticketDocumentLayout,
+  .qaAnalysisGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ticketSummarySidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .ticketHeaderMain,
+  .jiraSectionTitleRow {
+    flex-direction: column;
+  }
+
+  .ticketBadgeRow {
+    justify-content: flex-start;
+  }
+
+  .ticketHeaderMeta,
+  .qaMetricGrid,
+  .coverageSummaryGrid,
+  .testCaseGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* QA Intelligence Dashboard */
+.qaDashboard {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 14px 34px rgba(2, 6, 23, 0.14);
+}
+
+.qaDashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-strong);
+}
+
+.qaDashboardHeader h3 {
+  margin: 4px 0 6px;
+  color: var(--text-main);
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.qaDashboardHeader p {
+  max-width: 860px;
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.qaSummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.qaWorkspaceGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.8fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.qaWorkspaceMain,
+.qaWorkspaceSide {
+  display: grid;
+  gap: 18px;
+}
+
+.qaWorkspaceSide {
+  position: sticky;
+  top: 18px;
+}
+
+.qaPanel {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 10px 28px rgba(2, 6, 23, 0.1);
+}
+
+.emphasisPanel {
+  border-color: color-mix(in srgb, var(--warning) 42%, var(--line));
+  background: color-mix(in srgb, var(--warning) 8%, var(--surface));
+}
+
+.qaPanelTitle {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.qaPanelTitle > div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.qaPanelTitle svg {
+  color: var(--accent-strong);
+}
+
+.qaPanelTitle h4 {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 22px;
+}
+
+.qaPanelTitle > span {
+  flex: 0 0 auto;
+  max-width: 260px;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--chip-text);
+  background: var(--chip-bg);
+  font-size: 12px;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.qaOverviewGrid,
+.strategyGrid,
+.comparisonGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.qaInfoCard,
+.strategyCard,
+.stepCard,
+.comparisonCard,
+.developerCard,
+.insightCard {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-muted);
+}
+
+.qaInfoCard strong,
+.strategyCard strong,
+.stepCard span,
+.comparisonCard strong,
+.developerCard strong,
+.insightCard strong,
+.qaSubsection strong {
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.qaInfoCard p,
+.strategyCard p,
+.stepCard p,
+.comparisonCard li,
+.developerCard p,
+.insightCard p,
+.mutedText,
+.qaSubsection li {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.qaInfoCard ul,
+.strategyCard ul,
+.comparisonCard ul,
+.qaPanel ul,
+.qaSubsection ol,
+.testCaseAccordionBody ol {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.strategyCard > div,
+.developerCard > div:first-child {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.strategyCard svg,
+.developerCard svg {
+  color: var(--success);
+}
+
+.stepCardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stepCard {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+}
+
+.stepCard span {
+  padding: 6px 9px;
+  border-radius: 999px;
+  color: var(--accent-strong);
+  background: var(--chip-bg);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.accordionStack,
+.insightStack {
+  display: grid;
+  gap: 10px;
+}
+
+.testCaseAccordion,
+.scriptPreviewAccordion {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-muted);
+  overflow: hidden;
+}
+
+.testCaseAccordion summary,
+.scriptPreviewAccordion summary {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.scriptPreviewAccordion summary {
+  grid-template-columns: auto 1fr;
+}
+
+.testCaseAccordion summary:hover,
+.scriptPreviewAccordion summary:hover {
+  background: var(--surface-strong);
+}
+
+.testCaseAccordion summary span {
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.testCaseAccordion summary strong,
+.scriptPreviewAccordion summary span {
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.testCaseAccordionBody {
+  display: grid;
+  gap: 12px;
+  padding: 0 14px 14px;
+}
+
+.qaSubsection {
+  display: grid;
+  gap: 8px;
+}
+
+.comparisonCard-success {
+  border-color: color-mix(in srgb, var(--success) 36%, var(--line));
+}
+
+.comparisonCard-warning {
+  border-color: color-mix(in srgb, var(--warning) 44%, var(--line));
+}
+
+.environmentBadgeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.insightCard {
+  border-left: 4px solid var(--accent);
+}
+
+.coverageProgress {
+  display: grid;
+  gap: 8px;
+}
+
+.coverageProgress > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.coverageProgress span {
+  color: var(--text-soft);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.coverageProgress strong {
+  color: var(--text-main);
+}
+
+.progressTrack {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--surface-muted);
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  min-width: 4px;
+  border-radius: inherit;
+}
+
+.progressFill-success {
+  background: var(--success);
+}
+
+.progressFill-warning {
+  background: var(--warning);
+}
+
+.progressFill-danger {
+  background: var(--danger);
+}
+
+.progressFill-info {
+  background: var(--accent);
+}
+
+.scriptPreviewAccordion pre {
+  max-height: 360px;
+  margin: 0 14px 14px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+}
+
+:root[data-theme="light"] .qaDashboard,
+:root[data-theme="light"] .qaPanel,
+:root[data-theme="light"] .qaInfoCard,
+:root[data-theme="light"] .strategyCard,
+:root[data-theme="light"] .stepCard,
+:root[data-theme="light"] .comparisonCard,
+:root[data-theme="light"] .developerCard,
+:root[data-theme="light"] .insightCard,
+:root[data-theme="light"] .testCaseAccordion,
+:root[data-theme="light"] .scriptPreviewAccordion {
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+@media (max-width: 1120px) {
+  .qaWorkspaceGrid,
+  .qaOverviewGrid,
+  .strategyGrid,
+  .comparisonGrid,
+  .stepCardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .qaWorkspaceSide {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .qaDashboard,
+  .qaPanel,
+  .qaDashboardHeader {
+    padding: 14px;
+  }
+
+  .qaDashboardHeader,
+  .qaPanelTitle {
+    flex-direction: column;
+  }
+
+  .qaSummaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .testCaseAccordion summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Agentic QA execution workspace */
+.pipelineDashboard {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--accent) 5%, transparent), transparent 36%),
+    var(--surface-inset);
+  box-shadow: 0 22px 56px rgba(2, 6, 23, 0.2);
+}
+
+.pipelineOverview,
+.pipelineControlHeader,
+.pipelineActions,
+.pipelineToggles,
+.pipelinePanelHeader,
+.scenarioTopline,
+.failureCardHeader {
+  display: flex;
+  align-items: center;
+}
+
+.pipelineOverview {
+  justify-content: space-between;
+  gap: 24px;
+  padding: 6px 4px 2px;
+}
+
+.pipelineOverview h3,
+.pipelinePanel h3 {
+  margin: 5px 0 6px;
+  color: var(--text-main);
+}
+
+.pipelineOverview p,
+.pipelineControlHeader p,
+.scenarioRow p,
+.eventRow p {
+  margin: 0;
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+
+.pipelineOverview > div:first-child {
+  max-width: 780px;
+}
+
+.pipelineHealth {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 220px;
+  padding: 13px 15px;
+  border: 1px solid color-mix(in srgb, var(--success) 30%, var(--line));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--success) 7%, var(--surface));
+}
+
+.pipelineHealth.hasFailures {
+  border-color: color-mix(in srgb, var(--danger) 35%, var(--line));
+  background: color-mix(in srgb, var(--danger) 8%, var(--surface));
+}
+
+.pipelineHealth > div {
+  display: grid;
+  gap: 2px;
+}
+
+.pipelineHealth strong {
+  color: var(--text-main);
+  font-size: 13px;
+}
+
+.pipelineHealth small,
+.eventRow small {
+  color: var(--text-muted);
+}
+
+.pipelineStatusDot,
+.eventIcon {
+  display: block;
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--success);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--success) 14%, transparent);
+}
+
+.pipelineHealth.hasFailures .pipelineStatusDot {
+  background: var(--danger);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--danger) 14%, transparent);
+}
+
+.pipelineMetrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.pipelineMetrics .metric {
+  min-height: 94px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.pipelineControlPanel,
+.pipelinePanel {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.pipelineControlHeader,
+.pipelinePanelHeader {
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.pipelineControlHeader strong {
+  color: var(--text-main);
+  font-size: 17px;
+}
+
+.pipelineControlHeader p {
+  margin-top: 5px;
+}
+
+.safeModeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid color-mix(in srgb, var(--success) 30%, var(--line));
+  border-radius: 999px;
+  color: color-mix(in srgb, var(--success) 78%, var(--text-main));
+  background: color-mix(in srgb, var(--success) 8%, var(--surface));
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.pipelineControlGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.pipelineControlGrid label {
+  display: grid;
+  gap: 7px;
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.pipelineControlGrid select,
+.pipelineControlGrid input {
+  width: 100%;
+  min-height: 43px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  color: var(--text-main);
+  background: var(--surface-muted);
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: normal;
+}
+
+.pipelineControlGrid select:focus-visible,
+.pipelineControlGrid input:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+
+.pipelineToggles {
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.destructiveToggle.active {
+  border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+  color: color-mix(in srgb, var(--danger) 78%, var(--text-main));
+  background: color-mix(in srgb, var(--danger) 9%, var(--surface));
+}
+
+.destructiveWarning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--warning) 38%, var(--line));
+  border-radius: 10px;
+  color: color-mix(in srgb, var(--warning) 78%, var(--text-main));
+  background: color-mix(in srgb, var(--warning) 9%, var(--surface));
+  line-height: 1.5;
+}
+
+.destructiveWarning svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.pipelineActions {
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.pipelineActions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pipelineNotice {
+  margin: 15px 0 0;
+  padding: 11px 13px;
+  border-left: 3px solid var(--accent);
+  color: var(--text-soft);
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+}
+
+.spinIcon {
+  animation: pipeline-spin 900ms linear infinite;
+}
+
+@keyframes pipeline-spin {
+  to { transform: rotate(360deg); }
+}
+
+.inventoryMetrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.inventoryMetrics > span {
+  display: grid;
+  gap: 3px;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--text-muted);
+  background: var(--surface-muted);
+  font-size: 11px;
+}
+
+.inventoryMetrics strong {
+  color: var(--text-main);
+  font-size: 18px;
+}
+
+.inventoryFilters {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) repeat(2, minmax(150px, 0.3fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.inventoryFilters label {
+  display: grid;
+  gap: 6px;
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.inventoryFilters input,
+.inventoryFilters select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  color: var(--text-main);
+  background: var(--surface-muted);
+  font: inherit;
+}
+
+.inventoryFilters input:focus-visible,
+.inventoryFilters select:focus-visible,
+.inventoryRow summary:focus-visible,
+.coverageScenario summary:focus-visible,
+.reportOpenLink:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 32%, transparent);
+  outline-offset: 2px;
+}
+
+.inventoryList {
+  display: grid;
+  gap: 8px;
+  max-height: 620px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.inventoryRow {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-muted);
+}
+
+.inventoryRow[open] {
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+}
+
+.inventoryRow summary {
+  display: grid;
+  grid-template-columns: 92px minmax(260px, 1fr) 110px 120px;
+  gap: 12px;
+  align-items: center;
+  padding: 13px;
+  color: var(--text-soft);
+  cursor: pointer;
+  font-size: 12px;
+  list-style-position: inside;
+}
+
+.inventoryRow summary::marker,
+.coverageScenario summary::marker {
+  color: var(--accent-strong);
+}
+
+.inventoryRow summary strong {
+  color: var(--text-main);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.inventoryStatus {
+  width: fit-content;
+  padding: 4px 7px;
+  border-radius: 999px;
+  color: var(--text-soft);
+  background: var(--surface);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.inventoryStatus.active,
+.resultBadge.active,
+.coverageTag.automated {
+  color: color-mix(in srgb, var(--success) 80%, var(--text-main));
+  background: color-mix(in srgb, var(--success) 13%, var(--surface));
+}
+
+.inventoryStatus.manual,
+.inventoryStatus.pending,
+.resultBadge.manual,
+.resultBadge.pending,
+.coverageTag.manual {
+  color: color-mix(in srgb, var(--warning) 82%, var(--text-main));
+  background: color-mix(in srgb, var(--warning) 13%, var(--surface));
+}
+
+.inventoryStatus.unstable,
+.inventoryStatus.destructive,
+.resultBadge.unstable,
+.resultBadge.destructive,
+.coverageTag.unstable,
+.coverageTag.destructive {
+  color: color-mix(in srgb, var(--danger) 82%, var(--text-main));
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
+}
+
+.inventoryDetails {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 13px 14px;
+}
+
+.inventoryDetails > div:not(.scenarioTags) {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.inventoryDetails span {
+  color: var(--text-muted);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.inventoryDetails strong {
+  overflow-wrap: anywhere;
+  color: var(--text-main);
+  font-size: 12px;
+}
+
+.inventoryDetails code,
+.coverageDetails code {
+  grid-column: 1 / -1;
+  overflow-x: auto;
+  padding: 8px 10px;
+  color: var(--accent-strong);
+  background: var(--surface-inset);
+  font-size: 11px;
+}
+
+.inventoryDetails .scenarioTags {
+  grid-column: 1 / -1;
+  margin-top: 0;
+}
+
+.pipelineColumns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  gap: 18px;
+}
+
+.pipelinePanelHeader h3 {
+  font-size: 18px;
+}
+
+.pipelinePanelHeader > span {
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: var(--text-muted);
+  background: var(--surface-muted);
+  font-size: 12px;
+}
+
+.panelKicker {
+  color: var(--accent-strong);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.scenarioStack,
+.eventStream {
+  display: grid;
+  gap: 10px;
+  max-height: 480px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.scenarioRow {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--surface-muted);
+}
+
+.scenarioRow > strong {
+  display: block;
+  margin: 9px 0 5px;
+  color: var(--text-main);
+}
+
+.scenarioRow p {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+
+.coverageScenario > summary {
+  display: grid;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.coverageScenario > summary > strong {
+  display: block;
+  color: var(--text-main);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.coverageDetails {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--text-soft);
+  background: color-mix(in srgb, var(--surface-inset) 68%, transparent);
+}
+
+.coverageDetails p {
+  margin: 0;
+}
+
+.coverageDetails strong {
+  color: var(--text-main);
+}
+
+.scenarioTopline {
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.resultBadge,
+.coverageTag {
+  padding: 4px 7px;
+  border-radius: 999px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.resultBadge.passed,
+.coverageTag.covered {
+  color: color-mix(in srgb, var(--success) 80%, var(--text-main));
+  background: color-mix(in srgb, var(--success) 13%, var(--surface));
+}
+
+.resultBadge.failed,
+.resultBadge.timedOut,
+.coverageTag.missing {
+  color: color-mix(in srgb, var(--danger) 80%, var(--text-main));
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
+}
+
+.resultBadge.skipped,
+.coverageTag.partial {
+  color: color-mix(in srgb, var(--warning) 80%, var(--text-main));
+  background: color-mix(in srgb, var(--warning) 12%, var(--surface));
+}
+
+.scenarioTags,
+.evidenceChips {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 11px;
+}
+
+.scenarioTags > span,
+.evidenceChips > span {
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text-muted);
+  background: var(--surface);
+  font-size: 11px;
+}
+
+.eventRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 11px 5px;
+  border-bottom: 1px solid var(--line);
+}
+
+.eventRow:last-child {
+  border-bottom: 0;
+}
+
+.eventRow .eventIcon {
+  margin-top: 6px;
+}
+
+.eventIcon.test_failed,
+.eventIcon.run_finished.failed,
+.eventIcon.run_finished.timedOut {
+  background: var(--danger);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--danger) 12%, transparent);
+}
+
+.eventIcon.test_started,
+.eventIcon.run_started {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.eventIcon.test_skipped {
+  background: var(--warning);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--warning) 12%, transparent);
+}
+
+.eventRow strong {
+  color: var(--text-main);
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.eventRow p {
+  margin: 2px 0;
+  font-size: 12px;
+}
+
+.reportGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.reportCard {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text-muted);
+  background: var(--surface-muted);
+}
+
+.reportCard.ready {
+  border-color: color-mix(in srgb, var(--success) 27%, var(--line));
+}
+
+.reportCard > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.reportCard strong {
+  color: var(--text-main);
+  font-size: 13px;
+}
+
+.reportCard code {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reportCard > span {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.reportCard.ready > span {
+  color: var(--success);
+  font-weight: 800;
+}
+
+.allurePanel {
+  overflow: hidden;
+}
+
+.reportOpenLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+  border-radius: 8px;
+  color: var(--accent-strong);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.reportOpenLink:hover {
+  border-color: var(--accent);
+  color: var(--text-main);
+}
+
+.allureFrame {
+  display: block;
+  width: 100%;
+  min-height: 720px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.failureCardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.failureCard {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, var(--danger) 26%, var(--line));
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--danger) 4%, var(--surface-muted));
+}
+
+.failureCardHeader {
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.failureCardHeader > span {
+  color: color-mix(in srgb, var(--danger) 78%, var(--text-main));
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.failureCard h4 {
+  margin: 12px 0 7px;
+  color: var(--text-main);
+}
+
+.failureCard > p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--text-soft);
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.failureAction {
+  display: grid;
+  gap: 4px;
+  margin: 14px 0;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.failureAction strong {
+  color: var(--text-main);
+  font-size: 11px;
+}
+
+.failureAction span {
+  color: var(--text-soft);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.failureCard > code {
+  display: block;
+  overflow-x: auto;
+  padding: 8px;
+  color: var(--accent-strong);
+  background: var(--surface-inset);
+  font-size: 11px;
+}
+
+.evidenceChips > span.available {
+  border-color: color-mix(in srgb, var(--success) 30%, var(--line));
+  color: var(--success);
+}
+
+.pipelineEmpty {
+  padding: 24px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 10px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.successEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--success);
+}
+
+@media (max-width: 1100px) {
+  .pipelineControlGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inventoryMetrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pipelineColumns {
+    grid-template-columns: 1fr;
+  }
+
+  .inventoryRow summary {
+    grid-template-columns: 92px minmax(220px, 1fr) 100px;
+  }
+
+  .inventoryRow summary > span:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .pipelineDashboard {
+    padding: 14px;
+  }
+
+  .pipelineOverview,
+  .pipelineControlHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pipelineHealth {
+    width: 100%;
+  }
+
+  .pipelineMetrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pipelineMetrics .metric:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .inventoryMetrics,
+  .inventoryFilters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .inventoryFilters label:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .inventoryRow summary {
+    grid-template-columns: 90px minmax(0, 1fr);
+  }
+
+  .inventoryRow summary > span:nth-last-child(-n + 2) {
+    display: none;
+  }
+
+  .inventoryDetails {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reportGrid,
+  .failureCardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .allureFrame {
+    min-height: 560px;
+  }
+}
+
+@media (max-width: 520px) {
+  .pipelineControlGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pipelineToggles,
+  .pipelineActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pipelineActions button,
+  .pipelineToggles .toggleControl {
+    width: 100%;
+  }
+
+  .inventoryMetrics,
+  .inventoryFilters,
+  .inventoryDetails {
+    grid-template-columns: 1fr;
+  }
+
+  .inventoryFilters label:first-child {
+    grid-column: auto;
+  }
+
+  .inventoryPanel,
+  .allurePanel {
+    padding: 14px;
+  }
+
+  .allurePanel .pipelinePanelHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .reportCard {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .reportCard > span {
+    grid-column: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinIcon {
+    animation: none;
+  }
+}
+
+/* Shared contrast corrections for both application themes */
+.statusHeader,
+.navLinks a {
+  color: var(--text-main);
+}
+
+.statusHeader .statusDot {
+  color: color-mix(in srgb, var(--success) 78%, var(--text-main));
+  background: color-mix(in srgb, var(--success) 13%, var(--surface));
+}
+
+.sectionHeader p,
+.heroText,
+.card p,
+.miniCard p,
+.artifactItem p {
+  color: var(--text-soft);
+}
+
+:root[data-theme="light"] .navLinks a {
+  color: #344256;
+}
+
+:root[data-theme="light"] .navLinks a:hover {
+  color: #075985;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chipRow span {
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.commentHeader,
+.testCaseHeader,
+.coverageHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.commentHeader span,
+.testCaseHeader span,
+.coverageHeader span {
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.compactTitle {
+  align-items: center;
+}
+
+.compactEmpty {
+  padding: 12px;
+  box-shadow: none;
+}
+
+.recorderShell {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 18px 42px rgba(2, 6, 23, 0.24);
+}
+
+.recorderToolbar {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) repeat(7, minmax(104px, auto));
+  gap: 12px;
+  align-items: end;
+}
+
+.recorderUrlField {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.recorderUrlField input {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text-main);
+  background: var(--surface-muted);
+  font: inherit;
+}
+
+.recorderUrlField select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text-main);
+  background: var(--surface-muted);
+  font: inherit;
+}
+
+.recorderStatusGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.recorderGrid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+  gap: 18px;
+}
+
+.recorderPanel {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-muted);
+}
+
+.recorderTimeline,
+.recorderSelectorList {
+  display: grid;
+  gap: 10px;
+}
+
+.recorderStep {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.recorderStep strong {
+  color: var(--text-main);
+}
+
+.recorderStep p {
+  margin: 3px 0 0;
+  color: var(--text-soft);
+  font-size: 12px;
+}
+
+.recorderStep code {
+  display: block;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+  color: var(--accent-strong);
+  font-size: 11px;
+}
+
+.recorderSummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.recorderShell .chipRow span {
+  border: 1px solid var(--line);
+  color: var(--accent-strong);
+  background: var(--surface);
+  overflow-wrap: anywhere;
+}
+
+.recorderFilePreview {
+  display: grid;
+  gap: 10px;
+}
+
+.analysisLead {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-muted);
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.highlightBlock {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+
+.howToTestGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.structuredBlock {
+  align-content: start;
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+}
+
+.structuredBlock strong {
+  text-transform: capitalize;
+}
+
+.structuredBlock ul,
+.assistantBlock ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.testCaseHeader {
+  display: grid;
+  justify-content: initial;
+}
+
+.testCaseHeader span {
+  color: var(--accent-strong);
+}
+
+.coverageCard p {
+  margin: 0;
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+
+.coverageHeader span {
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: var(--chip-bg);
+}
+
+.successText {
+  color: color-mix(in srgb, var(--success) 80%, var(--text-main));
+  background: color-mix(in srgb, var(--success) 12%, var(--surface));
+}
+
+.errorText {
+  color: color-mix(in srgb, var(--danger) 80%, var(--text-main));
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
+}
+
+pre,
+:root[data-theme="light"] pre {
+  color: var(--text-main);
+  background: var(--surface-muted);
+}
+
+@media (max-width: 900px) {
+  .ticketOverviewGrid,
+  .howToTestGrid,
+  .recorderGrid,
+  .recorderToolbar,
+  .recorderStatusGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .ticketMetaGrid,
+  .twoColumnMeta,
+  .recorderSummaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ticketDetailHeader,
+  .commentHeader,
+  .coverageHeader {
+    flex-direction: column;
+  }
+}
+
+/* Polished Jira QA workspace layout */
+main {
+  overflow-x: hidden;
+}
+
+.nav,
+.heroGrid,
+.section {
+  width: min(1360px, calc(100% - 48px));
+}
+
+.section {
+  padding: 48px 0;
+}
+
+.assistantShell {
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 18px 42px rgba(2, 6, 23, 0.24);
+}
+
+.assistantToolbar {
+  align-items: center;
+  padding: 24px;
+}
+
+.assistantToolbar .eyebrow {
+  margin-bottom: 12px;
+}
+
+.runnerControls {
+  justify-content: flex-end;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  line-height: 1;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.primaryBtn:hover:not(:disabled),
+.secondaryBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.primaryBtn:focus-visible,
+.secondaryBtn:focus-visible,
+.ticketCard:focus-visible,
+.runnerControls select:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  outline-offset: 2px;
+}
+
+.primaryBtn:disabled,
+.secondaryBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.secondaryBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--surface-strong);
+}
+
+.assistantScopeBar {
+  padding: 16px 24px;
+}
+
+.assistantWorkspace {
+  grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+  min-height: 0;
+}
+
+.assistantSidebar {
+  gap: 16px;
+  padding: 20px;
+}
+
+.assistantMain {
+  gap: 24px;
+  min-width: 0;
+  padding: 24px;
+}
+
+.ticketStack {
+  max-height: min(620px, 64vh);
+}
+
+.ticketCard {
+  min-width: 0;
+  border-radius: 10px;
+}
+
+.ticketHeader,
+.ticketMeta,
+.ticketMetaGrid,
+.ticketOverviewGrid,
+.ticketHeaderMain,
+.jiraSectionTitleRow,
+.qaPanelTitle,
+.qaTestCaseHeader,
+.testCaseAccordion summary,
+.scriptPreviewAccordion summary,
+.automationActionRow {
+  min-width: 0;
+}
+
+.ticketSummary,
+.ticketHeaderCard h2,
+.jiraRichText p,
+.jiraRichText li,
+.acceptanceItem p,
+.jiraCommentCard p,
+.qaInfoCard p,
+.strategyCard li,
+.stepCard p,
+.comparisonCard li,
+.developerCard p,
+.insightCard p,
+.qaSubsection li,
+.mutedText {
+  overflow-wrap: anywhere;
+}
+
+.ticketHeaderCard,
+.jiraDocSection,
+.ticketSummarySidebar,
+.qaDashboard,
+.qaDashboardHeader,
+.qaPanel,
+.qaInfoCard,
+.strategyCard,
+.stepCard,
+.comparisonCard,
+.developerCard,
+.insightCard,
+.testCaseAccordion,
+.scriptPreviewAccordion,
+.jiraCommentCard,
+.acceptanceItem {
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: 0 12px 28px rgba(2, 6, 23, 0.16);
+}
+
+.ticketHeaderCard,
+.jiraDocSection,
+.qaDashboard,
+.qaPanel {
+  padding: 24px;
+}
+
+.ticketDocumentLayout {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  gap: 24px;
+}
+
+.ticketDocumentMain {
+  min-width: 0;
+  gap: 24px;
+}
+
+.ticketSummarySidebar {
+  top: 24px;
+  gap: 18px;
+  padding: 18px;
+}
+
+.ticketHeaderMain {
+  align-items: flex-start;
+}
+
+.ticketHeaderCard h2 {
+  max-width: 920px;
+  font-size: clamp(24px, 2.3vw, 36px);
+  line-height: 1.18;
+}
+
+.ticketHeaderMeta {
+  gap: 12px;
+}
+
+.ticketHeaderMeta div,
+.metaItem {
+  border-radius: 10px;
+}
+
+.jiraDocSection {
+  gap: 16px;
+}
+
+.jiraDocSection h3,
+.qaPanelTitle h4,
+.ticketSummarySidebar h3 {
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.jiraRichText {
+  gap: 14px;
+  max-height: 560px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.jiraRichText p,
+.jiraRichText li,
+.acceptanceItem p,
+.jiraCommentCard p {
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.jiraRichText ul {
+  gap: 9px;
+  padding-left: 24px;
+}
+
+.acceptanceChecklist {
+  gap: 12px;
+}
+
+.acceptanceItem {
+  gap: 12px;
+  padding: 14px;
+  background: var(--surface-muted);
+}
+
+.jiraCommentStack {
+  max-height: 520px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.jiraCommentCard {
+  gap: 14px;
+  padding: 16px;
+  background: var(--surface-muted);
+  box-shadow: none;
+}
+
+.jiraCommentHeader {
+  align-items: flex-start;
+}
+
+.qaDashboard {
+  gap: 24px;
+  background: var(--surface);
+}
+
+.qaDashboardHeader {
+  align-items: center;
+  padding: 22px;
+  background: var(--surface-strong);
+}
+
+.qaDashboardHeader h3 {
+  font-size: clamp(24px, 2.2vw, 32px);
+}
+
+.qaDashboardHeader p {
+  max-width: 980px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.qaSummaryGrid {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.jiraMetricCard {
+  min-height: 118px;
+  align-content: space-between;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.jiraMetricCard strong {
+  font-size: clamp(24px, 2vw, 32px);
+}
+
+.qaWorkspaceGrid {
+  grid-template-columns: minmax(0, 1.58fr) minmax(300px, 0.72fr);
+  gap: 24px;
+}
+
+.qaWorkspaceMain,
+.qaWorkspaceSide {
+  min-width: 0;
+  gap: 24px;
+}
+
+.qaWorkspaceSide {
+  top: 24px;
+}
+
+.qaPanel {
+  gap: 16px;
+  background: var(--surface);
+}
+
+.qaPanelTitle {
+  align-items: center;
+}
+
+.qaPanelTitle > div {
+  min-width: 0;
+}
+
+.qaPanelTitle > span,
+.panelTitle span,
+.jiraSectionTitleRow > span,
+.jiraBadge,
+.chipRow span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+
+.qaOverviewGrid,
+.strategyGrid,
+.comparisonGrid,
+.stepCardGrid {
+  gap: 14px;
+}
+
+.qaInfoCard,
+.strategyCard,
+.stepCard,
+.comparisonCard,
+.developerCard,
+.insightCard {
+  min-width: 0;
+  padding: 16px;
+  background: var(--surface-muted);
+  box-shadow: none;
+}
+
+.qaInfoCard,
+.strategyCard,
+.comparisonCard,
+.developerCard,
+.insightCard {
+  align-content: start;
+}
+
+.stepCard {
+  align-items: start;
+}
+
+.testCaseAccordion summary {
+  grid-template-columns: minmax(74px, auto) minmax(0, 1fr) auto;
+}
+
+.scriptPreviewAccordion summary {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.scriptPreviewAccordion pre {
+  max-height: 440px;
+  margin: 0 16px 16px;
+  padding: 16px;
+  border-radius: 10px;
+  overflow: auto;
+  overflow-wrap: normal;
+  white-space: pre;
+}
+
+.automationActionRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 180px));
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.automationActionRow .primaryBtn,
+.automationActionRow .secondaryBtn {
+  width: 100%;
+}
+
+.automationPanel {
+  gap: 18px;
+}
+
+.automationPanelGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr) minmax(180px, 0.7fr);
+  gap: 14px;
+}
+
+.qaSignoffPanel {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-muted);
+}
+
+.qaCommentPreview {
+  display: grid;
+  gap: 16px;
+  max-height: 360px;
+  margin: 0;
+  padding: 16px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text-main);
+  background: var(--surface-inset);
+  font-size: 14px;
+  line-height: 1.65;
+  white-space: normal;
+}
+
+.successText,
+.errorText,
+.jiraEmptyState {
+  border-radius: 10px;
+}
+
+@media (max-width: 1180px) {
+  .assistantWorkspace,
+  .ticketDocumentLayout,
+  .qaWorkspaceGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .automationPanelGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .assistantSidebar,
+  .ticketSummarySidebar,
+  .qaWorkspaceSide {
+    position: static;
+  }
+
+  .assistantSidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ticketStack {
+    max-height: 380px;
+  }
+
+  .qaSummaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .nav,
+  .heroGrid,
+  .section {
+    width: min(1360px, calc(100% - 32px));
+  }
+
+  .assistantToolbar,
+  .assistantScopeBar,
+  .qaDashboardHeader,
+  .ticketHeaderMain {
+    align-items: stretch;
+  }
+
+  .runnerControls {
+    justify-content: flex-start;
+  }
+
+  .ticketHeaderMeta,
+  .qaOverviewGrid,
+  .strategyGrid,
+  .comparisonGrid,
+  .stepCardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav,
+  .heroGrid,
+  .section {
+    width: min(1360px, calc(100% - 24px));
+  }
+
+  .section {
+    padding: 36px 0;
+  }
+
+  .assistantShell,
+  .qaDashboard,
+  .ticketHeaderCard,
+  .jiraDocSection,
+  .qaPanel {
+    border-radius: 10px;
+  }
+
+  .assistantToolbar,
+  .assistantScopeBar,
+  .assistantSidebar,
+  .assistantMain,
+  .ticketHeaderCard,
+  .jiraDocSection,
+  .qaDashboard,
+  .qaDashboardHeader,
+  .qaPanel {
+    padding: 16px;
+  }
+
+  .runnerControls,
+  .automationActionRow {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .runnerControls .primaryBtn,
+  .runnerControls .secondaryBtn,
+  .automationActionRow .primaryBtn,
+  .automationActionRow .secondaryBtn,
+  .runnerControls select,
+  .toggleControl {
+    width: 100%;
+  }
+
+  .qaSummaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .jiraRichText,
+  .jiraCommentStack {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .testCaseAccordion summary {
+    grid-template-columns: 1fr;
   }
 }

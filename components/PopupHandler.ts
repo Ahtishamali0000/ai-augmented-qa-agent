@@ -13,13 +13,12 @@ export class PopupHandler {
     await this.closeCookieBanner();
     await this.closeLocationStoreModal();
     await this.closeCookieBanner();
+    await this.closeLocationStoreModal();
     await this.closeEmailCaptureLightbox();
     await this.closeNewsletterPopup();
     await this.closeMarketingLightbox();
-    await this.closeEmailCaptureLightbox();
     await this.closeGenericNonAuthModal();
     await this.closeVisibleNonAuthModalIfBackdropPresent();
-    await this.page.waitForTimeout(300);
   }
 
   async handleCloudflareIfVisible() {
@@ -131,12 +130,14 @@ export class PopupHandler {
 
       for (const frame of this.page.frames()) {
         await frame
-          .getByRole('button', { name: /close modal|decline offer|close|no thanks|not now|×|x/i })
-          .click({ force: true, timeout: 1000 })
+          .getByRole('button', { name: /close modal|decline offer|^close$|no thanks|not now/i })
+          .first()
+          .click({ force: true, timeout: 1500 })
           .catch(() => undefined);
 
         await frame
           .getByText(/decline offer|close modal|no thanks|not now/i)
+          .first()
           .click({ force: true, timeout: 1000 })
           .catch(() => undefined);
       }
@@ -193,16 +194,15 @@ export class PopupHandler {
   }
 
   private async clickFirstVisible(locators: Locator[]) {
-    for (const locator of locators) {
-      const target = locator.first();
+    const candidates = locators.reduce((combined, locator) => combined.or(locator));
+    const target = candidates.filter({ visible: true }).first();
 
-      if (await target.isVisible({ timeout: 750 }).catch(() => false)) {
-        try {
-          await target.click({ timeout: 5000 });
-          return true;
-        } catch {
-          continue;
-        }
+    if (await target.isVisible({ timeout: 1000 }).catch(() => false)) {
+      try {
+        await target.click({ timeout: 2000 });
+        return true;
+      } catch {
+        return false;
       }
     }
 
